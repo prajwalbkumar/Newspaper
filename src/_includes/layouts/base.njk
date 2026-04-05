@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% colorTokens %}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css">
+{% include "components/head-seo.njk" %}
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <filter id="lp" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="8" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feComposite in="d" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <filter id="lp-md" x="-4%" y="-4%" width="108%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="8" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.0" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feComposite in="d" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <filter id="lp-sm" x="-4%" y="-4%" width="108%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="8" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.5" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feComposite in="d" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<div id="newspaper">
+
+{% include "components/masthead.njk" %}
+
+<div id="paper">
+{{ content | safe }}
+</div>
+
+</div><!-- /newspaper -->
+
+{% include "components/archive-overlay.njk" %}
+
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lb-close" onclick="closeLightbox()">Close ×</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div id="gh-overlay" onclick="closeGitHubChart(event)">
+  <div id="gh-chart-box">
+    <div class="gh-chart-head">
+      <span class="gh-chart-title">GitHub Activity</span>
+      <span class="gh-chart-sub">Full contribution history</span>
+    </div>
+    <img src="https://ghchart.rshah.org/{{ config.github.username }}"
+         alt="GitHub contribution chart"
+         onerror="this.alt='Chart unavailable'">
+  </div>
+</div>
+
+<script>
+window.SITE_CONFIG = {
+  github:   { username: "{{ config.github.username }}", showStats: {{ config.github.showStats | dump | safe }}, usePagesFn: {{ config.github.usePagesFn | dump | safe }} },
+  weather:  { enabled: {{ config.weather.enabled | dump | safe }}, cacheTTL: {{ config.weather.cacheTTL }}, lat: {{ config.location.latitude }}, lon: {{ config.location.longitude }} },
+  location: { city: "{{ config.location.city }}", timezone: "{{ config.location.timezone }}" }
+};
+</script>
+<script src="/assets/js/redaction.js"></script>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/live-data.js"></script>
+
+</body>
+</html>

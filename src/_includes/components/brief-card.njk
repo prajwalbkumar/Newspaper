@@ -1,0 +1,5 @@
+{# Compact brief block. post = collection item #}
+<div class="brief" id="{{ post.fileSlug }}" data-tags="{{ post.data.section }}" data-post-id="{{ post.fileSlug }}" onclick="openStory('{{ post.fileSlug }}')">
+  <div class="blabel">Brief &nbsp;·&nbsp; {{ post.date | dateShort }}</div>
+  <div class="bt">{{ post.templateContent | safe }}</div>
+</div>

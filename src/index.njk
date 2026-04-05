@@ -1,0 +1,65 @@
+---
+layout: layouts/base.njk
+title: The Irregular
+description: A personal newspaper by Prajwal — dispatches on architecture, BIM automation, travel, code, and making things properly.
+---
+
+{# JSON island — all posts (published + morgue) for client-side popup #}
+<script type="application/json" id="posts-data">
+[
+{%- for post in collections.allPosts -%}
+{"id":{{ post.fileSlug | dump | safe }},"title":{{ (post.data.title or "") | dump | safe }},"deck":{{ (post.data.deck or "") | dump | safe }},"byline":{{ (post.data.byline or "") | dump | safe }},"section":{{ (post.data.section or "") | dump | safe }},"date":{{ post.date | dateShort | dump | safe }},"layout":{{ post.data.layout | dump | safe }},"photo":{{ (post.data.photo or "") | dump | safe }},"body":{{ post.templateContent | dump | safe }},"tags":{{ (post.data.tags if post.data.tags else []) | dump | safe }},"slug":{{ post.fileSlug | dump | safe }}}
+{%- if not loop.last -%},{%- endif -%}
+{%- endfor -%}
+]
+</script>
+
+{% include "components/front-page.njk" %}
+
+{# Build column sections using config-driven date dividers #}
+{% set dividers = config.content.sectionDividers %}
+{% set columnPosts = collections.posts | whereNot("data.layout", "lead") %}
+
+{# Group 0: posts on or after the first divider date (most recent) #}
+{% set group0 = columnPosts | dateRange(dividers[0].after, "") %}
+{% if group0.length > 0 %}
+  {% set colData = group0 | groupInto3 %}
+  {% include "components/cols-grid.njk" %}
+{% endif %}
+
+{# Group 1: posts between divider[1] and divider[0] #}
+{% set group1 = columnPosts | dateRange(dividers[1].after, dividers[0].after) %}
+{% if group1.length > 0 %}
+  {% set sectionLabel = dividers[0].label %}
+  {% include "components/section-rule.njk" %}
+  {% set colData = group1 | groupInto3 %}
+  {% include "components/cols-grid.njk" %}
+{% endif %}
+
+{# Group 2: posts between divider[2] and divider[1] #}
+{% set group2 = columnPosts | dateRange(dividers[2].after, dividers[1].after) %}
+{% if group2.length > 0 %}
+  {% set sectionLabel = dividers[1].label %}
+  {% include "components/section-rule.njk" %}
+  {% set colData = group2 | groupInto3 %}
+  {% include "components/cols-grid.njk" %}
+{% endif %}
+
+{# Group 3: posts before the last divider date #}
+{% set group3 = columnPosts | dateRange("", dividers[2].after) %}
+{% if group3.length > 0 %}
+  {% set sectionLabel = dividers[2].label %}
+  {% include "components/section-rule.njk" %}
+  {% set colData = group3 | groupInto3 %}
+  {% include "components/cols-grid.njk" %}
+{% endif %}
+
+{# Correspondent's Files strip #}
+{% set sectionLabel = "Correspondent's Files" %}
+{% include "components/section-rule.njk" %}
+{% include "components/strip.njk" %}
+
+{% include "components/morgue.njk" %}
+{% include "components/footer.njk" %}
+
+{% include "components/popup-overlay.njk" %}

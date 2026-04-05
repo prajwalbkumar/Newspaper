@@ -1,0 +1,67 @@
+{% set leadPost = collections.leadPost[0] %}
+{% if leadPost %}
+<div class="front-page" id="{{ leadPost.fileSlug }}" data-tags="{{ leadPost.data.section }}">
+
+  <!-- Lead story: 3/4 width -->
+  <div class="front-lead">
+    <div class="lead-flag">Front Page &nbsp;·&nbsp; {{ leadPost.date | dateShort }}</div>
+
+    <div class="lead-hed" onclick="openStory('{{ leadPost.fileSlug }}')">{{ leadPost.data.title }}</div>
+
+    <div class="lead-rule">
+      <div class="lr-thick"></div><div class="lr-dot"></div><div class="lr-thin"></div>
+    </div>
+
+    {% if leadPost.data.deck %}
+    <div class="lead-deck">{{ leadPost.data.deck }}</div>
+    {% endif %}
+
+    <div class="lead-body">
+      <div class="l-col">
+        <div class="bt drop">{{ leadPost.templateContent | safe }}</div>
+        <div class="cont" onclick="openStory('{{ leadPost.fileSlug }}')">Continued — Full Report ↗</div>
+      </div>
+      <div class="l-col">
+        {% if leadPost.data.pullquote %}
+        <div class="pq">"{{ leadPost.data.pullquote }}"</div>
+        {% endif %}
+        {% if leadPost.data.body2 %}
+        <div class="bt">{{ leadPost.data.body2 | safe }}</div>
+        {% endif %}
+        {% if leadPost.data.byline %}
+        <div class="byline">{{ leadPost.data.byline }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- About sidebar: 1/4 width -->
+  <div class="front-about">
+    <div class="now" data-tags="dispatch">
+      <div class="blabel">About</div>
+      <div class="bt" style="margin-top:.28rem">
+        <p>Prajwal. Architect and BIM professional based in Dubai. I coordinate large-scale buildings by day and write code by night. Interested in the overlap between computation, design, and the things that make a city worth walking through.</p>
+        <p style="margin-top:.6em">This newspaper is where I think in public — about buildings, tools, trips, and what it means to make things properly.</p>
+      </div>
+      <div class="byline" style="color:rgba(242,234,216,.36);border-top-color:rgba(242,234,216,.12)">{{ config.location.display }} &nbsp;·&nbsp; Est. {{ site.established }}</div>
+    </div>
+    <div class="now" data-tags="now">
+      <div class="blabel">Now &nbsp;·&nbsp; {{ now.month }}</div>
+      <div class="bt" style="margin-top:.28rem">
+        <p>{{ now.body }}</p>
+      </div>
+      <div class="byline" style="color:rgba(242,234,216,.36);border-top-color:rgba(242,234,216,.12)">Status as of this morning</div>
+    </div>
+    <div class="now" data-tags="dispatch">
+      <div class="blabel">Get in Touch</div>
+      <div class="bt" style="margin-top:.28rem">
+        <p>If something here made you think something, I'd like to hear it. Available for BIM automation consulting, computational design conversations, and the occasional interesting collaboration.</p>
+      </div>
+      <div class="byline" style="color:rgba(242,234,216,.36);border-top-color:rgba(242,234,216,.12)">
+        <a href="mailto:{{ config.social.email }}" style="color:rgba(242,234,216,.58);text-decoration:none;border-bottom:1px solid rgba(242,234,216,.18)">{{ config.social.email }}</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endif %}

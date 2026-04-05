@@ -1,0 +1,48 @@
+{
+  "notices": [
+    { "label": "Launching", "body": "markedwith.love. A letter app where distance shapes delivery." },
+    { "label": "Available", "body": "BIM coordination & automation consulting. Dubai. Revit, pyRevit, IFC." },
+    { "label": "Reading",   "body": "The Odin Project curriculum. Slowly. On purpose." },
+    { "label": "Wanted",    "body": "Collaborators who think before they build." }
+  ],
+
+  "projects": [
+    { "name": "markedwith.love",         "url": "https://markedwith.love",         "status": "active"  },
+    { "name": "The Irregular",            "url": "/",                                "status": "active"  },
+    { "name": "BIM Automation Scripts",   "url": "https://github.com/prajwalsingh", "status": "active"  },
+    { "name": "CloudYourKitchen",         "url": null,                               "status": "paused"  },
+    { "name": "BIM Health Dashboard",     "url": null,                               "status": "shipped" },
+    { "name": "Rhino Parametric Studies", "url": null,                               "status": "shelved" },
+    { "name": "Point Cloud Pipeline",     "url": null,                               "status": "shelved" }
+  ],
+
+  "hobbies": [
+    { "label": "Photography",           "note": "Mostly architectural. Mostly before 8am when the light is right and the city is quieter than it should be." },
+    { "label": "Cars",                  "note": "Specifically the ones over-engineered for the roads they'll actually drive on. Currently: BMW 440i Gran Coupé M-Sport." },
+    { "label": "Watches",               "note": "A slow accumulation of interest that has not yet reached acquisition. The research stage is where it currently lives." },
+    { "label": "Travel",                "note": "Preferably slow and loose from day three. The first two days can be structured." },
+    { "label": "Computational Design",  "note": "The part of architecture that is secretly software. Grasshopper, Rhino, pyRevit." },
+    { "label": "Web Development",       "note": "The Odin Project curriculum, by hand. This newspaper is partly the result." },
+    { "label": "Architecture Criticism","note": "Dubai provides a great deal of material." }
+  ],
+
+  "bucketList": [
+    { "item": "Drive the Nürburgring Nordschleife",    "done": false },
+    { "item": "See the Northern Lights",               "done": false },
+    { "item": "Build something people use every day",  "done": false },
+    { "item": "Publish a piece of long-form writing",  "done": false },
+    { "item": "Learn to surf — properly",              "done": false },
+    { "item": "Sri Lanka south coast",                 "done": true  },
+    { "item": "Sleep under stars in the Empty Quarter","done": false },
+    { "item": "Road trip: Coast of Portugal",          "done": false },
+    { "item": "Spend a month somewhere with no plan",  "done": false }
+  ],
+
+  "toys": [
+    { "category": "Camera",         "name": "Sony A7C",                       "note": "Full-frame mirrorless. Mostly pointed at buildings.",    "italic": false },
+    { "category": "Car (research)", "name": "BMW 440i Gran Coupé M-Sport",    "note": "Budget does not support this. Research continues.",      "italic": false },
+    { "category": "Watch",          "name": "Undecided — shortlist: growing.","note": "The first sign of a problem.",                           "italic": true  },
+    { "category": "Fitness",        "name": "Whoop 4.0",                      "note": "Tells me I sleep badly. I knew this.",                    "italic": false },
+    { "category": "Machine",        "name": "MacBook Pro M3",                 "note": "Runs everything. No complaints.",                         "italic": false }
+  ]
+}

@@ -1,0 +1,65 @@
+<div class="strip">
+
+  <!-- Notices -->
+  <div class="sp">
+    <div class="sp-head">Notices</div>
+    {% for notice in strip.notices %}
+    <div class="sp-item"><strong>{{ notice.label }} —</strong> {{ notice.body }}</div>
+    {% endfor %}
+  </div>
+
+  <!-- Projects -->
+  <div class="sp">
+    <div class="sp-head">Projects</div>
+    {% for project in strip.projects %}
+    <div class="proj-row">
+      <span class="pdot
+        {%- if project.status == "active" %} p-act
+        {%- elif project.status == "paused" %} p-pau
+        {%- elif project.status == "shipped" %} p-shp
+        {%- else %} p-shv
+        {%- endif %}"></span>
+      {% if project.url %}
+      <a href="{{ project.url }}"{% if project.url != "/" %} target="_blank" rel="noopener"{% endif %}>{{ project.name }}</a>
+      {% else %}
+      <span>{{ project.name }}</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+    <div class="proj-legend">
+      <div class="proj-legend-item"><span class="pdot p-act" style="margin-right:.3rem"></span>Active</div>
+      <div class="proj-legend-item"><span class="pdot p-pau" style="margin-right:.3rem"></span>Paused</div>
+      <div class="proj-legend-item"><span class="pdot p-shp" style="margin-right:.3rem"></span>Shipped</div>
+      <div class="proj-legend-item"><span class="pdot p-shv" style="margin-right:.3rem"></span>Shelved</div>
+    </div>
+  </div>
+
+  <!-- Hobbies -->
+  <div class="sp">
+    <div class="sp-head">Hobbies</div>
+    {% for hobby in strip.hobbies %}
+    <div class="hobby"><span class="hobby-lbl">{{ hobby.label }} —</span> {{ hobby.note }}</div>
+    {% endfor %}
+  </div>
+
+  <!-- Bucket List -->
+  <div class="sp">
+    <div class="sp-head">Bucket List</div>
+    {% for item in strip.bucketList %}
+    <div class="bl{% if item.done %} done{% endif %}">{{ item.item }}</div>
+    {% endfor %}
+  </div>
+
+  <!-- Toys -->
+  <div class="sp">
+    <div class="sp-head">Toys</div>
+    {% for toy in strip.toys %}
+    <div class="toy">
+      <span class="toy-cat">{{ toy.category }}</span>
+      <span class="toy-name{% if toy.italic %}" style="font-style:italic;opacity:.65{% endif %}">{{ toy.name }}</span>
+      <span class="toy-note">{{ toy.note }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>

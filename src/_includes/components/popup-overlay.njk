@@ -1,0 +1,29 @@
+<div id="popup-back" onclick="closePopup(event)">
+  <div id="popup">
+    <div class="pp-mh">
+      <span class="pp-pub">{{ site.title }}</span>
+      <div class="pp-meta">
+        <span class="pp-sec-lbl" id="pp-section-date">—</span>
+        <button class="pp-close" onclick="closePopup({target:document.getElementById('popup-back')})">Close ×</button>
+      </div>
+    </div>
+    <div id="pp-photo-wrap"></div>
+    <div class="pp-bd" id="pp-bd"></div>
+    <div class="pp-nav">
+      <button class="pp-nav-btn" id="pp-prev" onclick="navStory(-1)">
+        <span class="pp-nav-dir">← Previous</span>
+        <span class="pp-nav-title" id="pp-prev-title"></span>
+      </button>
+      <button class="pp-nav-btn" id="pp-next" onclick="navStory(1)">
+        <span class="pp-nav-dir">Next →</span>
+        <span class="pp-nav-title" id="pp-next-title"></span>
+      </button>
+    </div>
+    <div id="pp-related" style="display:none">
+      <div class="pp-related pp-related-outer">
+        <div class="pp-related-lbl">Related Dispatches</div>
+        <div class="pp-related-grid" id="pp-related-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>

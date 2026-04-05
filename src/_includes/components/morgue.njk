@@ -1,0 +1,21 @@
+{% if collections.morgue.length > 0 %}
+<div id="morgue">
+  <div class="morgue-hed">The Morgue</div>
+  <div class="morgue-sub">Unpublished &nbsp;·&nbsp; Abandoned &nbsp;·&nbsp; Unfinished &nbsp;·&nbsp; Preserved here</div>
+  {% set morgueColData = collections.morgue | groupInto3 %}
+  <div class="cols">
+    {% for col in morgueColData %}
+    <div class="col">
+      {% for post in col %}
+      <div class="story" id="{{ post.fileSlug }}" data-tags="{{ post.data.section }}" data-post-id="{{ post.fileSlug }}">
+        <div class="stamp">{{ post.data.morgueStatus | capitalize }}</div>
+        <div class="hed h3" onclick="openStory('{{ post.fileSlug }}')">{{ post.data.title }}</div>
+        <div class="meta">Draft &nbsp;·&nbsp; {{ post.date | dateMD }}, {{ post.date | dateYear }}</div>
+        <div class="bt">{{ post.templateContent | safe }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

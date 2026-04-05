@@ -1,0 +1,24 @@
+---
+layout: layouts/base.njk
+---
+<div class="post-page">
+  {% if photo %}
+  <img class="pp-photo" src="{{ photo }}" alt="{{ title }}">
+  {% endif %}
+  <div class="pp-bd">
+    {% if section %}
+    <div class="pp-sec">{{ section | capitalize }}</div>
+    {% endif %}
+    <h1 class="pp-hed">{{ title }}</h1>
+    <div class="pp-rule">
+      <div class="lr-thick"></div><div class="lr-dot"></div><div class="lr-thin"></div>
+    </div>
+    {% if deck %}
+    <div class="pp-deck">{{ deck }}</div>
+    {% endif %}
+    {% if byline %}
+    <div class="pp-byline">{{ byline }}</div>
+    {% endif %}
+    <div class="pp-cols">{{ content | safe }}</div>
+  </div>
+</div>

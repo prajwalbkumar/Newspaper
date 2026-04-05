@@ -1,0 +1,50 @@
+<div id="archive">
+  <div class="arc-inner">
+    <div class="arc-header"><span class="arc-title">Archive &nbsp;·&nbsp; All Issues</span></div>
+
+    {% set arcGroups = collections.posts | groupByYearMonth %}
+    {% for group in arcGroups %}
+    <div class="arc-year">
+      <div class="arc-year-label">{{ group.year }}</div>
+      {% for monthGroup in group.months %}
+      <div class="arc-month">
+        <div class="arc-month-label">{{ monthGroup.month }}</div>
+        {% for post in monthGroup.posts %}
+        <div class="arc-entry" onclick="openStory('{{ post.fileSlug }}')">
+          <span class="arc-date">{{ post.date | dateMD }}</span>
+          <span class="arc-hed">{{ post.data.title }}</span>
+          <span class="arc-type t-{{ post.data.section }}{% if post.data.layout == 'longform' %} t-long{% endif %}">
+            {%- if post.data.layout == 'longform' %}Long Read{%- else %}{{ post.data.section | capitalize }}{%- endif %}
+          </span>
+          <span class="arc-tag">{{ post.data.section }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+
+    {% if collections.morgue.length > 0 %}
+    <div class="arc-year">
+      <div class="arc-year-label" style="opacity:.42">Morgue</div>
+      <div class="arc-month">
+        {% for post in collections.morgue %}
+        <div class="arc-entry arc-morgue" onclick="openStory('{{ post.fileSlug }}')">
+          <span class="arc-date">{{ post.date | dateMD }}</span>
+          <span class="arc-hed">{{ post.data.title }}</span>
+          <span class="arc-tag">{{ post.data.morgueStatus | capitalize }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div style="margin-top:3rem;border-top:1px solid rgba(15,13,10,.1);padding-top:1.5rem">
+      <img src="https://ghchart.rshah.org/{{ config.github.username }}"
+           alt="GitHub contribution chart"
+           style="width:100%;display:block"
+           onerror="this.alt='Chart unavailable'">
+    </div>
+
+  </div>
+</div>

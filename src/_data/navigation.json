@@ -1,0 +1,9 @@
+[
+  { "label": "All",          "filter": "all" },
+  { "label": "Architecture", "filter": "architecture" },
+  { "label": "Code",         "filter": "code" },
+  { "label": "Travel",       "filter": "travel" },
+  { "label": "Dispatch",     "filter": "dispatch" },
+  { "label": "Opinion",      "filter": "opinion" },
+  { "label": "Now",          "filter": "now" }
+]

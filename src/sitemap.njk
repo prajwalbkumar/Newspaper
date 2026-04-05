@@ -1,0 +1,22 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{{ config.site.url }}/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  {% for post in collections.posts %}
+  {% if post.data.layout != "morgue" %}
+  <url>
+    <loc>{{ config.site.url }}{{ post.url }}</loc>
+    <lastmod>{{ post.date | isoDate }}</lastmod>
+    <changefreq>never</changefreq>
+    <priority>{% if post.data.layout == "lead" %}0.9{% elif post.data.layout == "longform" %}0.8{% else %}0.7{% endif %}</priority>
+  </url>
+  {% endif %}
+  {% endfor %}
+</urlset>

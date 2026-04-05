@@ -1,0 +1,34 @@
+{# Renders story, longform, lead (as story) cards. post = collection item #}
+<div class="story" id="{{ post.fileSlug }}" data-tags="{{ post.data.section }}" data-post-id="{{ post.fileSlug }}">
+
+  {% if post.data.layout == "longform" %}
+  <div class="meta">{{ post.data.section | capitalize }} &nbsp;·&nbsp; {{ post.date | dateMD }}, {{ post.date | dateYear }} &nbsp;·&nbsp; Long Read</div>
+  {% else %}
+  <div class="meta">{{ post.data.section | capitalize }} &nbsp;·&nbsp; {{ post.date | dateShort }}</div>
+  {% endif %}
+
+  <div class="hed {{ post.data.size | default('h3') }}" onclick="openStory('{{ post.fileSlug }}')">{{ post.data.title }}</div>
+
+  {% if post.data.deck %}
+  <div class="deck">{{ post.data.deck }}</div>
+  {% endif %}
+
+  {% if post.data.layout == "longform" %}
+  <div class="bt">
+    {% if post.data.dateline %}<p><span class="dateline">{{ post.data.dateline }} —</span> {{ post.data.deck }}</p>{% endif %}
+  </div>
+  <div class="cont" onclick="openStory('{{ post.fileSlug }}')">Read in full ↗</div>
+
+  {% elif post.data.clip %}
+  <div class="bt clipped">{{ post.templateContent | safe }}</div>
+  <div class="cont" onclick="openStory('{{ post.fileSlug }}')">Continued — Full Report ↗</div>
+
+  {% else %}
+  <div class="bt">{{ post.templateContent | safe }}</div>
+  {% endif %}
+
+  {% if post.data.byline %}
+  <div class="byline">{{ post.data.byline }}</div>
+  {% endif %}
+
+</div>

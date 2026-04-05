@@ -1,0 +1,49 @@
+<div id="masthead">
+  <div class="mh-top">
+    <div class="mh-l">
+      <div>Vol. {{ site.volume }} &nbsp;·&nbsp; No. {{ site.issueNumber }} &nbsp;·&nbsp; Est. {{ site.established }}</div>
+      <div id="gh-stats">—</div>
+      <div class="mh-social">
+        <a href="{{ config.social.github }}" target="_blank" rel="noopener">GitHub</a>
+        <span class="mh-sep">·</span>
+        <a href="{{ config.social.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+        <span class="mh-sep">·</span>
+        <a href="{{ config.social.instagram }}" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+
+    <a href="/" class="pub-name">{{ site.title }}</a>
+
+    <div class="mh-r">
+      <div id="live-date"></div>
+      <div class="mh-times">
+        <span class="time-label">{{ config.location.city }}</span>&nbsp;<span id="dubai-time">—</span>
+        &nbsp;·&nbsp;
+        <span class="time-label">You</span>&nbsp;<span id="your-time">—</span>
+      </div>
+      <div id="weather-display">—</div>
+      <div class="mh-btns">
+        <button class="ibtn" id="dark-btn">◐</button>
+        <button class="ibtn" id="fold-btn">◫&nbsp;Archive</button>
+        <button class="ibtn" onclick="window.print()">⎙</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mh-tagline">{{ site.tagline }}</div>
+
+  <div class="mh-controls">
+    <div class="section-index">
+      <span class="si-label">Sections</span>
+      {% for item in navigation %}
+      <button class="si-btn{% if loop.first %} on{% endif %}" data-f="{{ item.filter }}">{{ item.label }}</button>
+      {% endfor %}
+    </div>
+    <div class="search-wrap">
+      <span class="sl">⌕</span>
+      <input type="text" id="search-input" placeholder="search dispatches…" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="ed-strip" id="ed-strip">Morning Edition &nbsp;·&nbsp; Issue {{ site.issueNumber }}</div>
+</div>
