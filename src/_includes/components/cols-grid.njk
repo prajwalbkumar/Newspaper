@@ -3,11 +3,7 @@
   {% for col in colData %}
   <div class="col">
     {% for post in col %}
-      {% if post.data.layout == "brief" %}
-        {% include "components/brief-card.njk" %}
-      {% else %}
-        {% include "components/story-card.njk" %}
-      {% endif %}
+    {% include "components/story-card.njk" %}
     {% endfor %}
   </div>
   {% endfor %}

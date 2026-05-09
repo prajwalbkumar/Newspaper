@@ -13,8 +13,8 @@
         <div class="arc-entry" onclick="openStory('{{ post.fileSlug }}')">
           <span class="arc-date">{{ post.date | dateMD }}</span>
           <span class="arc-hed">{{ post.data.title }}</span>
-          <span class="arc-type t-{{ post.data.section }}{% if post.data.layout == 'longform' %} t-long{% endif %}">
-            {%- if post.data.layout == 'longform' %}Long Read{%- else %}{{ post.data.section | capitalize }}{%- endif %}
+          <span class="arc-type t-{{ post.data.section }}{% if post.data.type == 'longread' %} t-long{% endif %}">
+            {%- if post.data.type == 'longread' %}Long Read{%- else %}{{ post.data.section | capitalize }}{%- endif %}
           </span>
           <span class="arc-tag">{{ post.data.section }}</span>
         </div>

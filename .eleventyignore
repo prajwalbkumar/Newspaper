@@ -1,1 +1,5 @@
-src/content/posts/_template-*.md
+node_modules/
+dist/
+CLAUDE.md
+README.md
+content/posts/_template*.md

@@ -35,8 +35,9 @@
   <div class="mh-controls">
     <div class="section-index">
       <span class="si-label">Sections</span>
-      {% for item in navigation %}
-      <button class="si-btn{% if loop.first %} on{% endif %}" data-f="{{ item.filter }}">{{ item.label }}</button>
+      <button class="si-btn on" data-f="all">All</button>
+      {% for section in collections.sections %}
+      <button class="si-btn" data-f="{{ section }}">{{ section | capitalize }}</button>
       {% endfor %}
     </div>
     <div class="search-wrap">

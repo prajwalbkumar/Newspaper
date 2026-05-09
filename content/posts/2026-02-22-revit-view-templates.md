@@ -1,13 +1,11 @@
 ---
 title: "Revit's View Templates Are a Solved Problem Nobody Solved"
 date: 2026-02-22
-layout: story
+type: story
 
-byline: "By Our Code Correspondent"
 section: architecture
-tags: [architecture, code]
+byline: "By Our Code Correspondent"
 size: h2
-
 description: "View templates should work like stylesheets. They do not."
 ---
 

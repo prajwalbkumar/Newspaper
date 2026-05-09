@@ -1,16 +1,14 @@
 ---
 title: "Six Days on the South Coast"
 date: 2026-03-15
-layout: story
+type: story
 
+section: travel
 deck: "A dispatch from Sri Lanka, where the plan was loose enough not to ruin anything."
 byline: "Filed from Hiriketiya · Mar 2026"
 dateline: "HIRIKETIYA"
-section: travel
-tags: [travel]
 size: h2
 clip: true
-
 description: "A dispatch from Sri Lanka — six days where the plan stayed loose enough not to ruin anything."
 ---
 

@@ -45,13 +45,14 @@
       </div>
       <div class="byline" style="color:rgba(242,234,216,.36);border-top-color:rgba(242,234,216,.12)">{{ config.location.display }} &nbsp;·&nbsp; Est. {{ site.established }}</div>
     </div>
+    {% set nowPost = collections.nowPost[0] %}
+    {% if nowPost %}
     <div class="now" data-tags="now">
-      <div class="blabel">Now &nbsp;·&nbsp; {{ now.month }}</div>
-      <div class="bt" style="margin-top:.28rem">
-        <p>{{ now.body }}</p>
-      </div>
+      <div class="blabel">Now &nbsp;·&nbsp; {{ nowPost.date | dateMonth }} {{ nowPost.date | dateYear }}</div>
+      <div class="bt" style="margin-top:.28rem">{{ nowPost.templateContent | safe }}</div>
       <div class="byline" style="color:rgba(242,234,216,.36);border-top-color:rgba(242,234,216,.12)">Status as of this morning</div>
     </div>
+    {% endif %}
     <div class="now" data-tags="dispatch">
       <div class="blabel">Get in Touch</div>
       <div class="bt" style="margin-top:.28rem">

@@ -1,14 +1,12 @@
 ---
 title: "Dubai in April: What the Heat Actually Feels Like"
 date: 2026-03-08
-layout: story
+type: story
 
+section: dispatch
 byline: "By Our Correspondent"
 dateline: "DUBAI"
-section: dispatch
-tags: [dispatch]
 size: h2
-
 description: "On the particular sensation of 42°C in Dubai — not the number, but what it does."
 ---
 

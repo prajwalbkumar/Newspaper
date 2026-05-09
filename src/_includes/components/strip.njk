@@ -3,7 +3,7 @@
   <!-- Notices -->
   <div class="sp">
     <div class="sp-head">Notices</div>
-    {% for notice in strip.notices %}
+    {% for notice in config.strip.notices %}
     <div class="sp-item"><strong>{{ notice.label }} —</strong> {{ notice.body }}</div>
     {% endfor %}
   </div>
@@ -11,7 +11,7 @@
   <!-- Projects -->
   <div class="sp">
     <div class="sp-head">Projects</div>
-    {% for project in strip.projects %}
+    {% for project in config.strip.projects %}
     <div class="proj-row">
       <span class="pdot
         {%- if project.status == "active" %} p-act
@@ -37,7 +37,7 @@
   <!-- Hobbies -->
   <div class="sp">
     <div class="sp-head">Hobbies</div>
-    {% for hobby in strip.hobbies %}
+    {% for hobby in config.strip.hobbies %}
     <div class="hobby"><span class="hobby-lbl">{{ hobby.label }} —</span> {{ hobby.note }}</div>
     {% endfor %}
   </div>
@@ -45,7 +45,7 @@
   <!-- Bucket List -->
   <div class="sp">
     <div class="sp-head">Bucket List</div>
-    {% for item in strip.bucketList %}
+    {% for item in config.strip.bucketList %}
     <div class="bl{% if item.done %} done{% endif %}">{{ item.item }}</div>
     {% endfor %}
   </div>
@@ -53,7 +53,7 @@
   <!-- Toys -->
   <div class="sp">
     <div class="sp-head">Toys</div>
-    {% for toy in strip.toys %}
+    {% for toy in config.strip.toys %}
     <div class="toy">
       <span class="toy-cat">{{ toy.category }}</span>
       <span class="toy-name{% if toy.italic %}" style="font-style:italic;opacity:.65{% endif %}">{{ toy.name }}</span>

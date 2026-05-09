@@ -1,14 +1,12 @@
 ---
 title: "The Script Ran in Two Seconds. It Took Two Weeks to Write."
 date: 2026-03-10
-layout: story
+type: story
 
+section: code
 deck: "The honest arithmetic of automation, and why it is always a bet on the future."
 byline: "By Our Code Correspondent"
-section: code
-tags: [code, automation]
 size: h2
-
 description: "An honest look at the arithmetic of automation in BIM workflows."
 ---
 

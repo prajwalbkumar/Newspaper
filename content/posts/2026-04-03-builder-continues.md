@@ -1,15 +1,13 @@
 ---
 title: "Builder Continues Despite Not Knowing If the Thing Will Work"
 date: 2026-04-03
-layout: lead
+type: lead
 
-deck: "markedwith.love enters its fourth week. The distance-based mechanic is confirmed. The rest remains open."
-pullquote: "The letter should cost something. The cost used to be stamps and ships."
-byline: "By Our Code Correspondent · Filed from Dubai · Apr 3, 2026"
 section: code
-tags: [code]
+deck: "markedwith.love enters its fourth week. The distance-based mechanic is confirmed. The rest remains open."
+byline: "By Our Code Correspondent · Filed from Dubai · Apr 3, 2026"
+pullquote: "The letter should cost something. The cost used to be stamps and ships."
 size: h1
-
 description: "markedwith.love enters its fourth week — building a letter app where delivery speed maps to real geographic distance."
 ---
 

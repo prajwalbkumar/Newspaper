@@ -1,13 +1,10 @@
 ---
 title: "The Ribbed Monoliths: A Post-Mortem"
 date: 2025-07-22
-layout: story
+type: story
 
-byline: "By Our Architecture Correspondent"
 section: architecture
-tags: [architecture]
-size: h3
-
+byline: "By Our Architecture Correspondent"
 description: "A fictional hospital in Cairo, built entirely in Rhino 3D. On what building without a client teaches you."
 ---
 

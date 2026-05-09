@@ -1,13 +1,10 @@
 ---
 title: "Notes From a Missed Flight in Doha"
 date: 2026-01-25
-layout: story
+type: story
 
-byline: "Filed from Hamad International · Jan 2026"
 section: travel
-tags: [travel]
-size: h3
-
+byline: "Filed from Hamad International · Jan 2026"
 description: "Eleven minutes. Six hours. One hundred and twenty pages. The arithmetic of the missed flight."
 ---
 

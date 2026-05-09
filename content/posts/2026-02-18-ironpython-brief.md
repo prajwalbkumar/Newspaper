@@ -1,10 +1,9 @@
 ---
 title: "IronPython, Tuesday"
 date: 2026-02-18
-layout: brief
-section: code
-tags: [code]
+type: brief
 
+section: code
 description: "A brief note on IronPython List[ElementId] interop."
 ---
 

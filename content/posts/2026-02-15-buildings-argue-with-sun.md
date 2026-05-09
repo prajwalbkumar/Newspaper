@@ -1,13 +1,11 @@
 ---
 title: "Buildings That Argue With the Sun"
 date: 2026-02-15
-layout: story
+type: story
 
-byline: "By Our Architecture Correspondent"
 section: opinion
-tags: [opinion, architecture]
+byline: "By Our Architecture Correspondent"
 size: h2
-
 description: "On Brutalism, honesty in architecture, and why the buildings that last are the ones that didn't try to flatter."
 ---
 

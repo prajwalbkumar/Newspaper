@@ -1,15 +1,13 @@
 ---
 title: "The City That Forgot What Streets Are For"
 date: 2026-01-14
-layout: longform
+type: longread
 
+section: architecture
 deck: "Dubai builds relentlessly upward. The problem is at ground level."
 byline: "By Our Architecture Correspondent · Dubai, Jan 2026"
 dateline: "DUBAI"
-section: architecture
-tags: [architecture, opinion]
 size: h1
-
 description: "A long read on walkability, ground-level failure, and what Dubai's extraordinary skyline actually costs at street level."
 ---
 

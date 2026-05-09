@@ -1,13 +1,10 @@
 ---
 title: "The Conversation I Keep Having With Myself"
 date: 2026-01-18
-layout: story
+type: story
 
-byline: "By Our Correspondent"
 section: dispatch
-tags: [dispatch]
-size: h3
-
+byline: "By Our Correspondent"
 description: "On internal comparisons, projections, and the more useful benchmark."
 ---
 

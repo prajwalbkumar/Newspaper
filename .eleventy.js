@@ -2,7 +2,7 @@ const siteConfig = require("./the-irregular.config.js");
 
 module.exports = function(eleventyConfig) {
 
-  eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
   // ── Markdown with {redact} plugin ──────────────────────────
   const md = require("markdown-it")({ html: true, typographer: true });
@@ -23,41 +23,59 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.setLibrary("md", md);
 
   // ── Collections ────────────────────────────────────────────
+  const allPosts = col =>
+    col.getFilteredByGlob("content/posts/*.md")
+      .filter(p => !p.fileSlug.startsWith("_"))
+      .sort((a, b) => b.date - a.date);
+
   eleventyConfig.addCollection("posts", col =>
-    col.getFilteredByGlob("src/content/posts/*.md")
-      .filter(p => p.data.layout !== "morgue" && !p.fileSlug.startsWith('_'))
-      .sort((a, b) => b.date - a.date)
+    allPosts(col).filter(p =>
+      p.data.type !== "morgue" && p.data.type !== "lead" && p.data.type !== "now"
+    )
   );
 
   eleventyConfig.addCollection("leadPost", col =>
-    col.getFilteredByGlob("src/content/posts/*.md")
-      .filter(p => p.data.layout === "lead" && !p.fileSlug.startsWith('_'))
-      .sort((a, b) => b.date - a.date).slice(0, 1)
+    allPosts(col).filter(p => p.data.type === "lead").slice(0, 1)
+  );
+
+  eleventyConfig.addCollection("nowPost", col =>
+    allPosts(col).filter(p => p.data.type === "now").slice(0, 1)
   );
 
   eleventyConfig.addCollection("morgue", col =>
-    col.getFilteredByGlob("src/content/posts/*.md")
-      .filter(p => p.data.layout === "morgue" && !p.fileSlug.startsWith('_'))
-      .sort((a, b) => b.date - a.date)
+    allPosts(col).filter(p => p.data.type === "morgue")
   );
 
-  eleventyConfig.addCollection("allPosts", col =>
-    col.getFilteredByGlob("src/content/posts/*.md")
-      .filter(p => !p.fileSlug.startsWith('_'))
-      .sort((a, b) => b.date - a.date)
-  );
+  eleventyConfig.addCollection("allPosts", col => allPosts(col));
+
+  // Derives unique section labels from published non-special posts
+  eleventyConfig.addCollection("sections", col => {
+    const posts = allPosts(col).filter(p =>
+      p.data.type !== "morgue" && p.data.type !== "lead" && p.data.type !== "now"
+    );
+    const seen = new Set();
+    posts.forEach(p => { if (p.data.section) seen.add(p.data.section); });
+    const order = siteConfig.content.sectionOrder;
+    return [...seen].sort((a, b) => {
+      const ia = order.indexOf(a), ib = order.indexOf(b);
+      if (ia === -1 && ib === -1) return a.localeCompare(b);
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+  });
 
   // ── Filters ────────────────────────────────────────────────
   eleventyConfig.addFilter("isoDate",   d => new Date(d).toISOString().split("T")[0]);
-  eleventyConfig.addFilter("dateShort", d => new Date(d).toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric"}));
-  eleventyConfig.addFilter("dateMD",    d => new Date(d).toLocaleDateString("en-GB", {day:"numeric",month:"short"}));
+  eleventyConfig.addFilter("dateShort", d => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }));
+  eleventyConfig.addFilter("dateMD",    d => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "short" }));
   eleventyConfig.addFilter("dateYear",  d => new Date(d).getFullYear());
-  eleventyConfig.addFilter("dateMonth", d => new Date(d).toLocaleDateString("en-GB", {month:"long"}));
+  eleventyConfig.addFilter("dateMonth", d => new Date(d).toLocaleDateString("en-GB", { month: "long" }));
   eleventyConfig.addFilter("absoluteUrl", p => `${siteConfig.site.url}${p}`);
   eleventyConfig.addFilter("dump", v => JSON.stringify(v));
 
   eleventyConfig.addFilter("groupInto3", arr => {
-    const cols = [[],[],[]];
+    const cols = [[], [], []];
     arr.forEach((item, i) => cols[i % 3].push(item));
     return cols;
   });
@@ -65,25 +83,15 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("dateRange", (posts, from, to) => {
     const f = from ? new Date(from) : new Date(0);
     const t = to   ? new Date(to)   : new Date();
-    return posts.filter(p => { const d = new Date(p.date); return d >= f && d <= t; });
+    return posts.filter(p => { const d = new Date(p.date); return d >= f && d < t; });
   });
 
-  eleventyConfig.addFilter("whereNot", (arr, key, val) =>
-    arr.filter(item => {
-      const parts = key.split('.');
-      let v = item;
-      for (const p of parts) v = v?.[p];
-      return v !== val;
-    })
-  );
-
-  // Groups published posts by year then month for archive overlay
   eleventyConfig.addFilter("groupByYearMonth", posts => {
     const yearMap = new Map();
     for (const post of posts) {
       const d = new Date(post.date);
       const year = d.getFullYear();
-      const month = d.toLocaleDateString('en-GB', { month: 'long' });
+      const month = d.toLocaleDateString("en-GB", { month: "long" });
       if (!yearMap.has(year)) yearMap.set(year, new Map());
       const monthMap = yearMap.get(year);
       if (!monthMap.has(month)) monthMap.set(month, []);
@@ -105,11 +113,11 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.setServerOptions({
     port: 3000,
-    watch: ["src/assets/**", "the-irregular.config.js"]
+    watch: ["src/assets/**", "the-irregular.config.js", "content/**"]
   });
 
   return {
-    dir: { input: "src", output: "dist", includes: "_includes", data: "_data" },
+    dir: { input: ".", output: "dist", includes: "src/_includes", data: "src/_data" },
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk"
   };
