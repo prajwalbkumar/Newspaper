@@ -59,9 +59,8 @@ module.exports = {
 
   // ── GitHub Integration ──────────────────────────────────────
   github: {
-    username:   "prajwalbkumar",
-    showStats:  true,
-    usePagesFn: false,
+    username:  "prajwalbkumar",
+    showStats: true,
   },
 
   // ── Weather Integration ─────────────────────────────────────
@@ -72,7 +71,6 @@ module.exports = {
 
   // ── Content Settings ────────────────────────────────────────
   content: {
-    postsPerSection: 9,
     sectionDividers: [
       { after: "2026-03-01", label: "On the Record" },
       { after: "2026-01-01", label: "From the Stacks" },

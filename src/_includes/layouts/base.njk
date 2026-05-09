@@ -62,7 +62,7 @@
 
 <script>
 window.SITE_CONFIG = {
-  github:   { username: "{{ config.github.username }}", showStats: {{ config.github.showStats | dump | safe }}, usePagesFn: {{ config.github.usePagesFn | dump | safe }} },
+  github:   { username: "{{ config.github.username }}", showStats: {{ config.github.showStats | dump | safe }} },
   weather:  { enabled: {{ config.weather.enabled | dump | safe }}, cacheTTL: {{ config.weather.cacheTTL }}, lat: {{ config.location.latitude }}, lon: {{ config.location.longitude }} },
   location: { city: "{{ config.location.city }}", timezone: "{{ config.location.timezone }}" }
 };

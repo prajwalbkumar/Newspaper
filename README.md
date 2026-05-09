@@ -162,7 +162,7 @@ strip: {
 ```javascript
 github: {
   username:  "prajwalbkumar",
-  showStats: true,    // Shows repos · commits · followers in masthead
+  showStats: true,   // Shows repos · commits (30d) · followers in masthead
 },
 ```
 

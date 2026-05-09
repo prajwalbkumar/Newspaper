@@ -279,8 +279,6 @@ body.folded #paper {
 .bt.clip-3 { -webkit-line-clamp:3; line-clamp:3; }
 .bt.clip-4 { -webkit-line-clamp:4; line-clamp:4; }
 .bt.clip-6 { -webkit-line-clamp:6; line-clamp:6; }
-/* Legacy alias kept for morgue/fallback */
-.bt.clipped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; cursor:pointer; }
 /* Lead featured body — max-height fade (handles multi-paragraph HTML) */
 .lead-clip { max-height:13.5rem; overflow:hidden; position:relative; }
 .lead-clip::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3.5rem; background:linear-gradient(transparent, var(--paper)); pointer-events:none; transition:background .4s; }
