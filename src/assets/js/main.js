@@ -149,14 +149,6 @@ function syncArchiveTop() {
   if (arc && mh) arc.style.paddingTop = (mh.offsetHeight + 32) + 'px';
 }
 
-// ─── Dark mode ────────────────────────────────────────────────
-let dark = document.body.classList.contains('dark');
-function applyDark() {
-  document.body.classList.toggle('dark', dark);
-  const btn = document.getElementById('dark-btn');
-  if (btn) btn.classList.toggle('on', dark);
-}
-
 // ─── Edition tint + live date/time ───────────────────────────
 function setEdition() {
   const h = new Date().getHours();
@@ -274,7 +266,6 @@ document.addEventListener('keydown', e => {
 // ─── Init ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadPostsData();
-  applyDark();
   setEdition();
   updateDate();
   updateTimes();
@@ -284,11 +275,9 @@ document.addEventListener('DOMContentLoaded', () => {
   syncArchiveTop();
 
   const foldBtn  = document.getElementById('fold-btn');
-  const darkBtn  = document.getElementById('dark-btn');
   const ghStats  = document.getElementById('gh-stats');
 
   if (foldBtn)  foldBtn.addEventListener('click', toggleFold);
-  if (darkBtn)  darkBtn.addEventListener('click', () => { dark = !dark; localStorage.setItem('dark', dark ? '1' : '0'); applyDark(); });
   if (ghStats)  ghStats.addEventListener('click', openGitHubChart);
 
   window.addEventListener('resize', syncArchiveTop);

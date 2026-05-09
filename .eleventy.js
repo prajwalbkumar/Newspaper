@@ -127,8 +127,8 @@ module.exports = function(eleventyConfig) {
 
   // ── Color tokens shortcode ─────────────────────────────────
   eleventyConfig.addShortcode("colorTokens", () => {
-    const l = siteConfig.colors.light, d = siteConfig.colors.dark;
-    return `<style>:root{--paper:${l.paper};--paper-d:${l.paperD};--paper-dd:${l.paperDD};--ink:${l.ink};--ink-m:${l.inkM};--ink-l:${l.inkL};--muted:${l.muted};--accent:${l.accent};--hi:${l.hi}}body.dark{--paper:${d.paper};--paper-d:${d.paperD};--paper-dd:${d.paperDD};--ink:${d.ink};--ink-m:${d.inkM};--ink-l:${d.inkL};--muted:${d.muted};--accent:${d.accent};--hi:${d.hi}}</style>`;
+    const l = siteConfig.colors.light;
+    return `<style>:root{--paper:${l.paper};--paper-d:${l.paperD};--paper-dd:${l.paperDD};--ink:${l.ink};--ink-m:${l.inkM};--ink-l:${l.inkL};--muted:${l.muted};--accent:${l.accent};--hi:${l.hi}}</style>`;
   });
 
   eleventyConfig.setServerOptions({
