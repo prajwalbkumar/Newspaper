@@ -28,12 +28,9 @@
   </div>
   <div class="cont" onclick="openStory('{{ post.fileSlug }}')">Read in full ↗</div>
 
-  {% elif post.data.clip %}
-  <div class="bt clipped">{{ post.templateContent | safe }}</div>
-  <div class="cont" onclick="openStory('{{ post.fileSlug }}')">Continued — Full Report ↗</div>
-
   {% else %}
-  <div class="bt">{{ post.templateContent | safe }}</div>
+  <div class="bt clipped" onclick="openStory('{{ post.fileSlug }}')">{{ post.templateContent | safe }}</div>
+  <div class="cont" onclick="openStory('{{ post.fileSlug }}')">Continued — Full Report ↗</div>
   {% endif %}
 
   {% if post.data.byline %}<div class="byline">{{ post.data.byline }}</div>{% endif %}

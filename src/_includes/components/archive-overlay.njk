@@ -10,7 +10,7 @@
       <div class="arc-month">
         <div class="arc-month-label">{{ monthGroup.month }}</div>
         {% for post in monthGroup.posts %}
-        <div class="arc-entry" onclick="openStory('{{ post.fileSlug }}')">
+        <div class="arc-entry" data-section="{{ post.data.section }}" onclick="openStory('{{ post.fileSlug }}')">
           <span class="arc-date">{{ post.date | dateMD }}</span>
           <span class="arc-hed">{{ post.data.title }}</span>
           <span class="arc-type t-{{ post.data.section }}{% if post.data.type == 'longread' %} t-long{% endif %}">
@@ -38,13 +38,6 @@
       </div>
     </div>
     {% endif %}
-
-    <div style="margin-top:3rem;border-top:1px solid rgba(15,13,10,.1);padding-top:1.5rem">
-      <img src="https://ghchart.rshah.org/{{ config.github.username }}"
-           alt="GitHub contribution chart"
-           style="width:100%;display:block"
-           onerror="this.alt='Chart unavailable'">
-    </div>
 
   </div>
 </div>

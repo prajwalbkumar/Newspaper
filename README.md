@@ -1,8 +1,7 @@
 # The Irregular
 
-A statically-generated personal newspaper site. Content is Markdown. One config file controls everything — title, colours, location, social links. Eleventy compiles it to plain HTML/CSS/JS. Live data (weather, GitHub) is fetched client-side and cached in `localStorage`.
+A statically-generated personal newspaper. Content is Markdown with YAML frontmatter. One config file controls everything — site identity, colours, location, social links, and the dark info strip. Eleventy compiles it to plain HTML/CSS/JS. Live data (weather, GitHub) is fetched client-side and cached in `localStorage`.
 
-**Live site:** [theirregular.com](https://theirregular.com)  
 **Stack:** Eleventy 3 · Nunjucks · Vanilla JS · Cloudflare Pages
 
 ---
@@ -10,61 +9,69 @@ A statically-generated personal newspaper site. Content is Markdown. One config 
 ## Features
 
 ### Newspaper Layout
-- Masthead with volume, issue, and edition line
-- Lead story hero (3-column left + about sidebar right)
-- Three-column grid for stories, briefs, and long-reads
-- Date-range section dividers ("On the Record", "From the Stacks", "The Archive")
+- Masthead with volume, issue number, edition line, live dual clock, live weather, and a 7-day GitHub activity heatmap
+- Lead story hero (3-column left body + 1-column about/now sidebar)
+- Three-column story grid with date-range section dividers
 - Dark five-column info strip: Notices · Projects · Hobbies · Bucket List · Toys
-- The Morgue — a section for unpublished / abandoned drafts
+- The Morgue — a section for unpublished, abandoned, and unfinished drafts
 
 ### Reading Experience
-- Click any story card to open the full post in an inline popup
-- URL updates via `history.pushState` — links are always shareable
-- Prev/next navigation and related posts inside the popup
-- Section filter bar (All / Architecture / Code / Travel / Dispatch / Opinion)
-- Full-text search with `<mark>` highlight
-- Archive overlay: all posts grouped by year and month, with a GitHub contribution chart
+- Click any story card to open the full post in an inline popup — body is always clipped on the card
+- URL updates via `history.pushState` so every open post has a shareable link
+- Prev / Next navigation inside the popup
+- Related dispatches block in both the popup and standalone post pages
+- Section filter bar (All · Architecture · Code · Travel · Dispatch · Opinion)
+- Full-text search with `<mark>` highlight across all post content
+- Archive overlay: all posts grouped by year and month, filterable by section
+- Clicking a post in the archive opens the popup without leaving the archive
+
+### Post Styling
+- Ghost-style single-column body: 16px, 1.72 line-height, paragraph spacing
+- Full rich-content support: h2–h6, blockquotes, callouts (info / warning / tip), ordered and unordered lists, tables, inline code, code blocks, horizontal rules
+- Image support with captions (`<figure>` / `<figcaption>`)
+- Photo gallery grid with click-to-lightbox
+- Header photo on individual post pages (set `photo:` in frontmatter)
+- Redaction syntax: `[text]{redact}` renders as blacked-out text, revealed on click
 
 ### Visual Polish
-- Light and dark mode (persists via `localStorage`)
-- Edition tint: paper colour shifts by time of day (morning / afternoon / evening / final)
+- Light and dark mode, persisted via `localStorage`
+- Edition tint: paper colour shifts subtly by time of day (morning / afternoon / evening / final)
 - Grain texture overlay, ink-settle load animation, tripartite section rules
-- Redaction syntax: `[text]{redact}` renders as obscured, reveal-on-hover text
 - Responsive at 1080 / 768 / 520 px breakpoints
 - Print stylesheet
 
-### Live Data
-- **Weather** via Open-Meteo (no API key) — shown in masthead, 1-hour cache
-- **GitHub stats** via public GitHub API — repos, 30-day commits, followers
-- **Dual live clock** — Dubai time (config timezone) + visitor's local time
+### Live Data (no API key required)
+- **Weather** via Open-Meteo API — current temp and condition shown in masthead, 1-hour cache
+- **GitHub stats** via public GitHub API — public repos, 30-day commits, followers; 7-day heatmap in masthead
+- **Dual live clock** — publication city (config timezone) + visitor's local time
 
-### SEO — First Class
+### SEO
 - Full meta tags, Open Graph, and Twitter Card on every page
 - JSON-LD structured data: `WebSite` + `Person` on home; `BlogPosting` / `Article` on posts
-- Canonical URLs on all pages
+- Canonical URLs throughout
 - `noindex, nofollow` automatically applied to morgue posts
-- `sitemap.xml` with per-layout priority weighting
-- `robots.txt` with sitemap pointer
+- `/sitemap.xml` with per-type priority weighting
+- `/robots.txt` with sitemap pointer
 
 ---
 
 ## Quick Start
 
 ```bash
-# 1. Clone
-git clone https://github.com/prajwalsingh/the-irregular.git
+# Clone
+git clone https://github.com/prajwalbkumar/the-irregular.git
 cd the-irregular
 
-# 2. Install
+# Install
 npm install
 
-# 3. Develop (localhost:3000, live reload)
+# Develop — live reload at localhost:3000
 npm start
 
-# 4. Build
-npm run build        # Output → dist/
+# Production build → dist/
+npm run build
 
-# 5. Clean
+# Clean build output
 npm run clean
 ```
 
@@ -74,45 +81,45 @@ npm run clean
 
 ```
 the-irregular/
-├── the-irregular.config.js   ← THE config file. Edit this first.
-├── .eleventy.js              ← Eleventy config: collections, filters, plugins
+├── the-irregular.config.js     ← THE config file. Edit this first.
+├── .eleventy.js                ← Collections, filters, markdown plugin
 ├── content/
-│   └── posts/               ← All your Markdown posts live here
-│       ├── _template.md     ← Copy this to start a new post
-│       └── posts.11tydata.js
+│   └── posts/                  ← All Markdown posts
+│       ├── _template.md        ← Copy this to start a new post
+│       └── posts.11tydata.js   ← Sets layout + permalink for all posts
 ├── src/
 │   ├── _data/
-│   │   ├── config.js        ← Re-exports the-irregular.config.js
-│   │   └── site.js          ← Re-exports config.site
+│   │   ├── config.js           ← Re-exports the-irregular.config.js
+│   │   └── site.js             ← Re-exports config.site
 │   ├── _includes/
 │   │   ├── layouts/
-│   │   │   ├── base.njk     ← Root HTML shell
-│   │   │   └── post.njk     ← Individual post page layout
-│   │   └── components/      ← Masthead, front-page, story-card, strip, etc.
+│   │   │   ├── base.njk        ← Root HTML shell (masthead, popup, archive, lightbox)
+│   │   │   └── post.njk        ← Standalone post page (/posts/slug/)
+│   │   └── components/         ← masthead, front-page, story-card, strip, morgue, etc.
 │   ├── assets/
 │   │   ├── css/main.css
 │   │   └── js/
-│   │       ├── main.js      ← Popup, filter, search, dark mode, clock
-│   │       ├── live-data.js ← Weather + GitHub stats
-│   │       └── redaction.js ← [text]{redact} mechanic
-│   ├── index.njk            ← Home page
+│   │       ├── main.js         ← Popup, filter, search, dark mode, clock, fold
+│   │       ├── live-data.js    ← Weather + GitHub stats + heatmap
+│   │       └── redaction.js    ← [text]{redact} mechanic
+│   ├── index.njk               ← Home page
 │   ├── sitemap.njk
 │   └── robots.njk
-└── dist/                    ← Build output (gitignored)
+└── dist/                       ← Build output (gitignored)
 ```
 
 ---
 
 ## Configuration
 
-Everything lives in `the-irregular.config.js` at the project root. You should never need to touch `main.css` for colour changes or any template for site identity changes.
+Everything is in `the-irregular.config.js`. You should never need to touch `main.css` for colour changes or any template file for site identity.
 
 ```javascript
 module.exports = {
   site: {
     title:       "The Irregular",
-    tagline:     "...",
-    url:         "https://theirregular.com",
+    tagline:     "Reporting on the interior life of one person · Published irregularly",
+    url:         "https://theirregular.com",   // no trailing slash
     author:      "Prajwal",
     issueNumber: "XXIV",
     volume:      "I",
@@ -120,22 +127,24 @@ module.exports = {
   },
   social: {
     email:     "hello@prajwal.com",
-    github:    "https://github.com/prajwalsingh",
-    linkedin:  "https://linkedin.com/in/prajwalsingh",
-    instagram: "https://instagram.com/prajwalsingh",
+    github:    "https://github.com/prajwalbkumar",
+    linkedin:  "https://linkedin.com/in/prajwalbkumar",
+    instagram: "https://instagram.com/prajwalbkumar",
   },
   location: {
     city:      "Dubai",
-    timezone:  "Asia/Dubai",   // IANA string — controls live clock + weather
+    country:   "UAE",
+    timezone:  "Asia/Dubai",     // IANA string — controls live clock + weather
     latitude:  25.2048,
     longitude: 55.2708,
+    display:   "Dubai, UAE",
   },
   colors: {
     light: { paper: "#f2ead8", ink: "#0f0d0a", accent: "#8b1a0e", ... },
     dark:  { paper: "#17150d", ink: "#e8e0cc", accent: "#d46050", ... },
   },
   github: {
-    username: "prajwalsingh",
+    username:  "prajwalbkumar",
     showStats: true,
   },
   content: {
@@ -146,20 +155,33 @@ module.exports = {
       { after: "2025-10-01", label: "The Archive" },
     ],
   },
+  strip: {
+    notices:    [...],   // Notices column
+    projects:   [...],   // Projects with status: active | paused | shipped | shelved
+    hobbies:    [...],   // Label + descriptive note
+    bucketList: [...],   // Item + done: true/false
+    toys:       [...],   // Category, name, note
+  },
 };
 ```
 
-To move cities: change `location`. Weather, the live clock, and the dateline all update automatically. To change colours: edit `colors`. CSS custom properties are written at build time from that object — never touch `main.css` for palette changes.
+**To move cities:** change `location`. Weather, the live clock, and datelines all update automatically.  
+**To change colours:** edit `colors`. CSS custom properties are written from this object at build time — never edit `main.css` for palette work.  
+**To update the strip:** edit `strip` in the config — all five columns are driven by this data.
 
 ---
 
 ## Writing Posts
 
-All posts are `.md` files in `content/posts/`. Filename convention: `YYYY-MM-DD-slug.md`. The `type:` field in frontmatter determines how the post renders.
+All posts are `.md` files in `content/posts/`. Filename: `YYYY-MM-DD-slug.md`.
 
-### Standard Story
+The `type:` field in frontmatter controls how a post renders. The directory data file (`posts.11tydata.js`) automatically applies `layout: layouts/post.njk` and sets the permalink to `/posts/slug/`.
 
-Appears in the three-column grid sections.
+---
+
+### `type: story` — Standard Article
+
+Appears in the three-column grid. Body is always clipped on the card; full content shows in the popup.
 
 ```yaml
 ---
@@ -169,23 +191,25 @@ type: story
 
 deck: "The honest arithmetic of automation."
 byline: "By Our Code Correspondent"
-dateline: "DUBAI"
-section: code           # architecture | code | travel | dispatch | opinion
+dateline: "DUBAI"              # Optional — renders as "DUBAI —" prefix
+section: code                  # architecture | code | travel | dispatch | opinion
 tags: [code, automation]
 
-size: h2                # h1 | h2 | h3 (default: h3)
-clip: true              # true = clips body, shows "Continued →"
-
-description: "SEO description here."
-photo: ""               # Optional image URL
+size: h2                       # h1 | h2 | h3 (default: h3) — headline size on the card
+description: "SEO description."
+photo: ""                      # Optional header image URL
 ---
 
-Body goes here. Full Markdown. `[sensitive text]{redact}` for redactions.
+Body goes here. Full Markdown.
+
+Use `[sensitive text]{redact}` for redactions.
 ```
 
-### Lead Story (Front-Page Hero)
+---
 
-Only the most recent `type: lead` post is used as the hero. When you publish a new lead, change the old one from `type: lead` to `type: story`.
+### `type: lead` — Front-Page Hero
+
+Only the most recent `type: lead` post is used as the hero. When publishing a new lead, change the old one to `type: story`.
 
 ```yaml
 ---
@@ -195,25 +219,28 @@ type: lead
 
 deck: "markedwith.love enters its fourth week."
 pullquote: "The letter should cost something."
-byline: "By Our Code Correspondent · Filed from Dubai · Apr 3, 2026"
+byline: "By Our Code Correspondent · Filed from Dubai · Apr 2026"
 section: code
+size: h1
 
 description: "SEO description."
 photo: ""
 ---
 
-Left-column body here. Gets the drop-cap treatment.
+Left-column body. Gets the drop-cap treatment.
 ```
 
-The right column shows: pullquote → byline. Add `body2:` multiline frontmatter for right-column body text.
+The right column renders: pullquote → byline → "Now" block. Add `body2:` as a multiline frontmatter string for right-column body text.
 
-### Brief
+---
 
-Short note. No headline shown in the card — only the label and body.
+### `type: brief` — Short Note
+
+Compact rendering. No headline on the card — just a label and the full body. Keep it under 100 words.
 
 ```yaml
 ---
-title: "IronPython, Tuesday"   # Used in archive/popup only
+title: "IronPython, Tuesday"   # Shown in archive + popup only, not the card
 date: 2026-02-18
 type: brief
 section: code
@@ -222,11 +249,14 @@ description: "..."
 ---
 
 **IronPython, Tuesday —** One hour. A TypeError. Five characters to fix.
+Understanding: the whole thing.
 ```
 
-### Long Read
+---
 
-Extended essay. Shows a "Long Read" badge. Card always clips to deck + "Read in full →". Full content only in the popup.
+### `type: longread` — Extended Essay
+
+Shows a "Long Read" badge. Card shows deck + "Read in full →". Full content only in the popup and at the standalone URL.
 
 ```yaml
 ---
@@ -244,12 +274,33 @@ description: "..."
 photo: ""
 ---
 
-Full body. Use `## Subheadings` for internal structure.
+Full body. Can be as long as needed.
+Use `## Subheadings` for internal structure.
 ```
 
-### Morgue (Unpublished / Abandoned)
+---
 
-Only appears in The Morgue section. Automatically `noindex, nofollow` — never in the main grid.
+### `type: now` — The "Now" Block
+
+A single post with `type: now` drives the "Now" block in the about sidebar. Update it by editing the post body and changing the `date:` to today.
+
+```yaml
+---
+title: "Now"
+date: 2026-04-03
+type: now
+---
+
+Building markedwith.love. Learning HTML & CSS properly. Dubai is getting hot again.
+```
+
+Only the most recently dated `type: now` post is displayed.
+
+---
+
+### `type: morgue` — Unpublished / Abandoned
+
+Only appears in The Morgue section at the bottom of the page. Never in the main grid. Automatically `noindex, nofollow`.
 
 ```yaml
 ---
@@ -257,7 +308,7 @@ title: "On Dubai and the Particular Loneliness of Expat Life"
 date: 2025-11-25
 type: morgue
 
-morgueStatus: unpublished   # unpublished | abandoned | unfinished
+morgueStatus: unpublished     # unpublished | abandoned | unfinished
 section: opinion
 tags: [opinion]
 ---
@@ -267,34 +318,61 @@ The third paragraph said something true [I wasn't ready to publish]{redact}.
 
 ---
 
-## Updating Static Data
+## Rich Content in Post Bodies
 
-### The "Now" Block
+The following elements are fully styled in both the popup and standalone post pages.
 
-The "Now · April 2026" box in the About sidebar is not a post. Update the `type: now` post in `content/posts/`:
+```markdown
+## Section heading
 
-- Change `date:` to today
-- Update the body
+> A blockquote. Rendered with a left border and italic styling.
 
-### The Strip (Notices · Projects · Hobbies · Bucket List · Toys)
+<div class="callout">A neutral callout box.</div>
+<div class="callout callout-warning">A warning callout.</div>
+<div class="callout callout-tip">A tip callout.</div>
 
-The dark five-column strip is driven by frontmatter in a designated post or directly from the config strip data. Edit the config or the relevant data source to update:
+- Unordered list
+- With multiple items
 
-- **Notices** — current availability, what you're reading, what you're building
-- **Projects** — name, URL, status (`active` / `paused` / `shipped` / `shelved`)
-- **Hobbies** — label + descriptive note
-- **Bucket List** — item + `done: true/false`
-- **Toys** — category, name, note
+1. Ordered list
+2. With numbers
+
+| Column A | Column B |
+|----------|----------|
+| Cell     | Cell     |
+
+`inline code`
+
+```python
+# Fenced code block
+def hello(): pass
+```
+
+![Alt text](image-url.jpg)
+
+<figure>
+  <img src="image-url.jpg" alt="Description">
+  <figcaption>Caption text appears below.</figcaption>
+</figure>
+
+<div class="gallery">
+  <img src="photo-1.jpg" alt="">
+  <img src="photo-2.jpg" alt="">
+  <img src="photo-3.jpg" alt="">
+</div>
+```
+
+Images in galleries and the popup body are click-to-expand (lightbox). The header `photo:` image on a post page is also click-to-expand.
 
 ---
 
 ## Redaction Syntax
 
-Wrap any text in `[text]{redact}` in Markdown. It renders as obscured text in the browser. Useful for things you want to preserve in the record without fully publishing.
-
 ```markdown
 The meeting was fine. [The client was not]{redact}.
 ```
+
+Renders as a blacked-out bar in the browser. Click to reveal. The text is still present in the HTML source — this is a cosmetic mechanic, not a security feature.
 
 ---
 
@@ -306,36 +384,44 @@ The meeting was fine. [The client was not]{redact}.
 | Build output directory | `dist` |
 | Node version | `20` |
 
-Push to `main` → Cloudflare Pages builds and deploys in ~30 seconds. No additional environment variables are required for the default configuration.
+Push to `main` → Cloudflare Pages builds and deploys in ~30 seconds.
 
-Optional: set `GITHUB_TOKEN` as an environment variable if you enable `github.usePagesFn: true` in the config for richer GitHub stats via a Cloudflare Pages Function.
+No environment variables required for the default configuration. Optional: set `GITHUB_TOKEN` if you enable `github.usePagesFn: true` in the config for richer GitHub stats via a Cloudflare Pages Function.
 
 ---
 
-## Content Workflow Cheatsheet
+## Content Workflow
 
 ```bash
-# New post
+# New post — copy the template and fill it in
 cp content/posts/_template.md content/posts/2026-05-01-my-slug.md
-# Edit frontmatter + write body
-npm start                           # Preview at localhost:3000
+npm start                              # Preview at localhost:3000
 git add content/posts/2026-05-01-my-slug.md
 git commit -m "post: my slug"
-git push                            # Deploys in ~30s
+git push                               # Deploys in ~30s
 
 # Promote a post to front-page lead
-# 1. Open old lead → change type: lead → type: story
+# 1. Open the current lead post → type: lead → type: story
 # 2. Create new post with type: lead
 # 3. Push
 
-# Change colour scheme
-#    Edit the-irregular.config.js → colors
-#    Push
+# Update the "Now" block
+# Edit content/posts/YYYY-MM-DD-now.md (or create a new one with type: now)
+# Change the date to today, update the body
+# Push
 
-# Relocate (new city)
-#    Edit the-irregular.config.js → location
-#    Weather, clock, dateline update automatically
-#    Push
+# Update the strip (notices, projects, hobbies, bucket list, toys)
+# Edit the-irregular.config.js → strip
+# Push
+
+# Change the colour scheme
+# Edit the-irregular.config.js → colors
+# Push
+
+# Relocate to a new city
+# Edit the-irregular.config.js → location
+# Weather, clock, and datelines update automatically
+# Push
 ```
 
 ---

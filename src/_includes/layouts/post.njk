@@ -21,4 +21,19 @@ layout: layouts/base.njk
     {% endif %}
     <div class="pp-cols">{{ content | safe }}</div>
   </div>
+
+  {% set relatedPosts = collections.posts | relatedPosts(page.fileSlug, section, 3) %}
+  {% if relatedPosts.length > 0 %}
+  <div class="pp-related pp-related-outer">
+    <div class="pp-related-lbl">Related Dispatches</div>
+    <div class="pp-related-grid">
+      {% for p in relatedPosts %}
+      <a href="{{ p.url }}" class="pp-related-item">
+        <div class="pp-related-tag">{{ p.data.section | capitalize }}</div>
+        <div class="pp-related-hed">{{ p.data.title }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
 </div>

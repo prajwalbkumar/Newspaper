@@ -31,6 +31,17 @@ async function initWeather() {
   } catch (_) {}
 }
 
+function renderWeekHeatmap(week) {
+  const el = document.getElementById('gh-week-heatmap');
+  if (!el || !Array.isArray(week)) return;
+  const max = Math.max(...week, 1);
+  const cells = week.map(v => {
+    const opacity = v === 0 ? 0.12 : (0.3 + (v / max) * 0.7).toFixed(2);
+    return `<div class="gh-day" style="opacity:${opacity}" title="${v} commit${v !== 1 ? 's' : ''}"></div>`;
+  }).join('');
+  el.innerHTML = cells + '<span class="gh-label">7d</span>';
+}
+
 async function fetchGitHubStats() {
   const { username, showStats, cacheTTL } = window.SITE_CONFIG.github;
   if (!showStats) return null;
@@ -49,7 +60,21 @@ async function fetchGitHubStats() {
         .filter(e => e.type === 'PushEvent' && new Date(e.created_at).getTime() > thirtyAgo)
         .reduce((n, e) => n + (e.payload?.commits?.length || 0), 0)
     : 0;
-  const data = { publicRepos: user.public_repos, followers: user.followers, commits30d };
+
+  // 7-day heatmap data
+  const week = [];
+  const nowTs = Date.now();
+  for (let i = 6; i >= 0; i--) {
+    const day = new Date(nowTs - i * 86400000).toISOString().split('T')[0];
+    const count = Array.isArray(events)
+      ? events
+          .filter(e => e.type === 'PushEvent' && e.created_at.startsWith(day))
+          .reduce((n, e) => n + (e.payload?.commits?.length || 0), 0)
+      : 0;
+    week.push(count);
+  }
+
+  const data = { publicRepos: user.public_repos, followers: user.followers, commits30d, week };
   try { localStorage.setItem(KEY, JSON.stringify({ ts: Date.now(), data })); } catch (_) {}
   return data;
 }
@@ -59,6 +84,7 @@ async function initGitHubStats() {
     const g = await fetchGitHubStats();
     const el = document.getElementById('gh-stats');
     if (el && g) el.textContent = `${g.publicRepos} repos · ${g.commits30d} commits (30d) · ${g.followers} followers`;
+    if (g && g.week) renderWeekHeatmap(g.week);
   } catch (_) {}
 }
 

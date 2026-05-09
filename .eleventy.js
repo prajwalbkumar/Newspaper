@@ -86,6 +86,10 @@ module.exports = function(eleventyConfig) {
     return posts.filter(p => { const d = new Date(p.date); return d >= f && d < t; });
   });
 
+  eleventyConfig.addFilter("relatedPosts", (posts, currentSlug, section, limit) =>
+    posts.filter(p => p.fileSlug !== currentSlug && p.data.section === section).slice(0, limit || 3)
+  );
+
   eleventyConfig.addFilter("groupByYearMonth", posts => {
     const yearMap = new Map();
     for (const post of posts) {

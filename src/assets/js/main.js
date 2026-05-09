@@ -37,8 +37,10 @@ function openStory(id) {
   const photoWrap = document.getElementById('pp-photo-wrap');
   if (photoWrap) {
     photoWrap.innerHTML = post.photo
-      ? `<img class="pp-photo" src="${post.photo}" alt="${escapeHtml(post.title)}" onerror="this.parentElement.innerHTML=''">`
+      ? `<img class="pp-photo" src="${post.photo}" alt="${escapeHtml(post.title)}" style="cursor:zoom-in" onerror="this.parentElement.innerHTML=''">`
       : '';
+    const photoImg = photoWrap.querySelector('img');
+    if (photoImg) photoImg.addEventListener('click', () => openLightbox(photoImg.src, photoImg.alt));
   }
 
   // Body
@@ -52,6 +54,12 @@ function openStory(id) {
     `<div class="pp-rule"><div class="lr-thick"></div><div class="lr-dot"></div><div class="lr-thin"></div></div>` +
     deck + byline +
     `<div class="pp-cols">${post.body}</div>`;
+
+  // Lightbox for images in popup
+  document.getElementById('pp-bd').querySelectorAll('img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
 
   // Process redactions in popup content
   if (typeof processRedactions === 'function') {
@@ -70,16 +78,12 @@ function openStory(id) {
   if (ppPrev) { ppPrev.disabled = !prevPost; document.getElementById('pp-prev-title').textContent = prevPost ? prevPost.title : ''; }
   if (ppNext) { ppNext.disabled = !nextPost; document.getElementById('pp-next-title').textContent = nextPost ? nextPost.title : ''; }
 
-  // Related
-  const tags       = Array.isArray(post.tags) ? post.tags : [];
-  const primaryTag = tags[0];
-  const related    = primaryTag
-    ? postOrder.filter(sid => {
-        if (sid === id) return false;
-        const s = postsMap[sid];
-        return s && Array.isArray(s.tags) && s.tags.includes(primaryTag);
-      }).slice(0, 3)
-    : [];
+  // Related — match by section
+  const related = postOrder.filter(sid => {
+    if (sid === id) return false;
+    const s = postsMap[sid];
+    return s && s.section && s.section === post.section;
+  }).slice(0, 3);
 
   const relDiv  = document.getElementById('pp-related');
   const relGrid = document.getElementById('pp-related-grid');
@@ -197,6 +201,10 @@ function initSectionFilter() {
       });
       const fp = document.querySelector('.front-page');
       if (fp) fp.classList.toggle('dim', f !== 'all' && !(fp.dataset.tags || '').split(' ').includes(f));
+      // Archive entries
+      document.querySelectorAll('.arc-entry[data-section]').forEach(el => {
+        el.classList.toggle('dim', f !== 'all' && el.dataset.section !== f);
+      });
     });
   });
 }
@@ -284,6 +292,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ghStats)  ghStats.addEventListener('click', openGitHubChart);
 
   window.addEventListener('resize', syncArchiveTop);
+
+  // Lightbox for images on standalone post pages
+  document.querySelectorAll('.post-page .pp-cols img, .post-page .pp-photo').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
 
   // Handle browser back button closing popup
   window.addEventListener('popstate', e => {
