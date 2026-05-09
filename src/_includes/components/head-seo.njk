@@ -2,8 +2,8 @@
 {% set pageDesc    = description if description else (deck if deck else site.description) %}
 {% set pageUrl     = config.site.url + page.url %}
 {% set pageImage   = (photo if photo else config.seo.defaultOGImage) | absoluteUrl %}
-{% set pageType    = "article" if layout in ["story","longform","brief","lead"] else "website" %}
-{% set noIndex     = true if layout == "morgue" else false %}
+{% set pageType    = "article" if type in ["story","longform","brief","lead"] else "website" %}
+{% set noIndex     = true if type == "morgue" else false %}
 {% set publishedAt = date | isoDate if date else false %}
 
 <title>{% if pageTitle != site.title %}{{ pageTitle }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
@@ -65,11 +65,11 @@
 </script>
 {% endif %}
 
-{% if layout in ["story", "longform", "lead"] %}
+{% if type in ["story", "longform", "lead"] %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "{% if layout == 'longform' %}Article{% else %}BlogPosting{% endif %}",
+  "@type": "{% if type == 'longform' %}Article{% else %}BlogPosting{% endif %}",
   "headline": {{ title | dump | safe }},
   "description": {{ (description if description else (deck if deck else "")) | dump | safe }},
   "url": "{{ pageUrl }}",

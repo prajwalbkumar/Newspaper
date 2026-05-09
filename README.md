@@ -174,11 +174,11 @@ Stats are fetched from the public GitHub API on page load, cached in `localStora
 
 All posts are `.md` files in `src/content/posts/`. Filename format: `YYYY-MM-DD-slug.md`.
 
-The `layout:` field in frontmatter controls how a post renders. Post bodies support full Markdown plus HTML passthrough — see the Rich Content Elements table below for a reference.
+The `type:` field in frontmatter controls how a post renders. Post bodies support full Markdown plus HTML passthrough — see the Rich Content Elements table below for a reference.
 
 ---
 
-### layout: story — Standard Article
+### type: story — Standard Article
 
 Appears in the three-column grid. Body is clipped on the card; full content in the popup.
 
@@ -186,7 +186,7 @@ Appears in the three-column grid. Body is clipped on the card; full content in t
 ---
 title: "The Script Ran in Two Seconds. It Took Two Weeks to Write."
 date: 2026-03-10
-layout: story
+type: story
 
 deck: "The honest arithmetic of automation."
 byline: "By Our Code Correspondent · Filed from Dubai · Mar 2026"
@@ -204,15 +204,15 @@ photo: ""
 
 ---
 
-### layout: lead — Front-Page Hero
+### type: lead — Front-Page Hero
 
-Only the most recently dated `lead` post becomes the front-page hero. When publishing a new lead, change the old one's `layout` from `lead` to `story`.
+Only the most recently dated `lead` post becomes the front-page hero. When publishing a new lead, change the old one's `type` from `lead` to `story`.
 
 ```yaml
 ---
 title: "Builder Continues Despite Not Knowing If the Thing Will Work"
 date: 2026-04-03
-layout: lead
+type: lead
 
 deck: "markedwith.love enters its fourth week."
 pullquote: "The letter should cost something."
@@ -230,7 +230,7 @@ The body renders in the left column with a drop cap. The right column shows: pul
 
 ---
 
-### layout: brief — Short Note
+### type: brief — Short Note
 
 Compact rendering. No headline on the card — just a date label and the body. Keep it under 100 words.
 
@@ -238,7 +238,7 @@ Compact rendering. No headline on the card — just a date label and the body. K
 ---
 title: "IronPython, Tuesday"   # Archive and popup only. Not shown on the card.
 date: 2026-02-18
-layout: brief
+type: brief
 section: code
 tags: [code]
 description: "A brief note."
@@ -249,7 +249,7 @@ description: "A brief note."
 
 ---
 
-### layout: longform — Extended Essay
+### type: longform — Extended Essay
 
 Shows a "Long Read" badge. Card shows deck + "Read in full →". Full content only in the popup.
 
@@ -257,7 +257,7 @@ Shows a "Long Read" badge. Card shows deck + "Read in full →". Full content on
 ---
 title: "The City That Forgot What Streets Are For"
 date: 2026-01-14
-layout: longform
+type: longform
 
 deck: "Dubai builds relentlessly upward. The problem is at ground level."
 byline: "By Our Architecture Correspondent · Dubai, Jan 2026"
@@ -274,7 +274,7 @@ photo: ""
 
 ---
 
-### layout: morgue — Unpublished / Abandoned
+### type: morgue — Unpublished / Abandoned
 
 Appears only in The Morgue section at the bottom of the page. Never in the main grid. Automatically `noindex, nofollow` in search engines.
 
@@ -282,7 +282,7 @@ Appears only in The Morgue section at the bottom of the page. Never in the main 
 ---
 title: "On Dubai and the Particular Loneliness of Expat Life"
 date: 2025-11-25
-layout: morgue
+type: morgue
 
 morgueStatus: unpublished   # unpublished | abandoned | unfinished
 section: opinion
@@ -340,7 +340,7 @@ git commit -m "post: my slug"
 git push                               # Deploys in ~30s
 
 # Promote a post to front-page lead
-# 1. Open the current lead → layout: lead → layout: story
+# 1. Open the current lead → type: lead → type: story
 # 2. cp src/content/posts/_template-lead.md src/content/posts/2026-05-01-new-lead.md
 # 3. Fill in the frontmatter and body, push
 
