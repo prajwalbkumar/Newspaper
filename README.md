@@ -398,15 +398,24 @@ git push                               # Deploys in ~30s
 
 ---
 
-## Deployment (Cloudflare Pages)
+## Deployment (Vercel)
 
-| Setting | Value |
-|---|---|
-| Build command | `npm run build` |
-| Build output directory | `dist` |
-| Node version | `20` |
+`vercel.json` is already configured at the project root. Two ways to deploy:
 
-Push to `main` → Cloudflare Pages builds and deploys in ~30 seconds. No environment variables required for the default configuration.
+**Dashboard**
+
+1. Push the repo to GitHub
+2. Go to [vercel.com](https://vercel.com) → New Project → Import the repo
+3. Vercel picks up `vercel.json` automatically — no settings to change
+4. Deploy. Every push to `main` redeploys automatically
+
+**CLI**
+
+```bash
+npm i -g vercel
+vercel        # first deploy + links the project
+vercel --prod # promote to production
+```
 
 ---
 
