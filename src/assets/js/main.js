@@ -150,7 +150,7 @@ function syncArchiveTop() {
 }
 
 // ─── Dark mode ────────────────────────────────────────────────
-let dark = localStorage.getItem('dark') === '1';
+let dark = document.body.classList.contains('dark');
 function applyDark() {
   document.body.classList.toggle('dark', dark);
   const btn = document.getElementById('dark-btn');
