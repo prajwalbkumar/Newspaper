@@ -4,10 +4,15 @@
 
 <div class="brief" id="{{ post.fileSlug }}" data-tags="{{ post.data.section }}" data-post-id="{{ post.fileSlug }}" onclick="openStory('{{ post.fileSlug }}')">
   <div class="blabel">Brief &nbsp;·&nbsp; {{ post.date | dateShort }}</div>
-  <div class="bt">{{ post.templateContent | safe }}</div>
+  <div class="bt clip-2">{{ post.templateContent | safe }}</div>
 </div>
 
 {% else %}
+
+{# Determine clip depth from headline size #}
+{% if post.data.size == "h1" %}{% set clipClass = "clip-6" %}
+{% elif post.data.size == "h2" %}{% set clipClass = "clip-4" %}
+{% else %}{% set clipClass = "clip-3" %}{% endif %}
 
 <div class="story" id="{{ post.fileSlug }}" data-tags="{{ post.data.section }}" data-post-id="{{ post.fileSlug }}">
 
@@ -23,13 +28,13 @@
   {% if post.data.deck %}<div class="deck">{{ post.data.deck }}</div>{% endif %}
 
   {% if post.data.type == "longread" %}
-  <div class="bt">
+  <div class="bt clip-3">
     {% if post.data.dateline %}<p><span class="dateline">{{ post.data.dateline }} —</span> {{ post.data.deck }}</p>{% endif %}
   </div>
   <div class="cont" onclick="openStory('{{ post.fileSlug }}')">Read in full ↗</div>
 
   {% else %}
-  <div class="bt clipped" onclick="openStory('{{ post.fileSlug }}')">{{ post.templateContent | safe }}</div>
+  <div class="bt {{ clipClass }}" onclick="openStory('{{ post.fileSlug }}')">{{ post.templateContent | striptags }}</div>
   <div class="cont" onclick="openStory('{{ post.fileSlug }}')">Continued — Full Report ↗</div>
   {% endif %}
 

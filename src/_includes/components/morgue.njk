@@ -11,7 +11,7 @@
         <div class="stamp">{{ post.data.morgueStatus | capitalize }}</div>
         <div class="hed h3" onclick="openStory('{{ post.fileSlug }}')">{{ post.data.title }}</div>
         <div class="meta">Draft &nbsp;·&nbsp; {{ post.date | dateMD }}, {{ post.date | dateYear }}</div>
-        <div class="bt">{{ post.templateContent | safe }}</div>
+        <div class="bt clip-3">{{ post.templateContent | striptags }}</div>
       </div>
       {% endfor %}
     </div>

@@ -1,7 +1,7 @@
 ---
 title: "Builder Continues Despite Not Knowing If the Thing Will Work"
 date: 2026-04-03
-type: lead
+type: story
 
 section: code
 deck: "markedwith.love enters its fourth week. The distance-based mechanic is confirmed. The rest remains open."

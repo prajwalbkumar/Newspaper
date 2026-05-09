@@ -8,16 +8,25 @@ module.exports = function(eleventyConfig) {
   const md = require("markdown-it")({ html: true, typographer: true });
   md.core.ruler.push("redact", state => {
     for (const token of state.tokens) {
-      if (token.type === "inline" && token.children) {
-        token.children.forEach(child => {
-          if (child.type === "text") {
-            child.content = child.content.replace(
-              /\[([^\]]+)\]\{redact\}/g,
-              "<redact>$1</redact>"
-            );
+      if (token.type !== "inline" || !token.children) continue;
+      const next = [];
+      for (const child of token.children) {
+        if (child.type !== "text") { next.push(child); continue; }
+        const parts = child.content.split(/(\[[^\]]+\]\{redact\})/);
+        for (const part of parts) {
+          const m = part.match(/^\[([^\]]+)\]\{redact\}$/);
+          if (m) {
+            const t = new state.Token("html_inline", "", 0);
+            t.content = `<redact>${m[1]}</redact>`;
+            next.push(t);
+          } else if (part) {
+            const t = new state.Token("text", "", 0);
+            t.content = part;
+            next.push(t);
           }
-        });
+        }
       }
+      token.children = next;
     }
   });
   eleventyConfig.setLibrary("md", md);
@@ -73,6 +82,13 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("dateMonth", d => new Date(d).toLocaleDateString("en-GB", { month: "long" }));
   eleventyConfig.addFilter("absoluteUrl", p => `${siteConfig.site.url}${p}`);
   eleventyConfig.addFilter("dump", v => JSON.stringify(v));
+  eleventyConfig.addFilter("striptags", str => {
+    if (!str) return '';
+    return str
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ').trim();
+  });
 
   eleventyConfig.addFilter("groupInto3", arr => {
     const cols = [[], [], []];
