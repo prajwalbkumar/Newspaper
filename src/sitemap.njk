@@ -14,7 +14,7 @@ eleventyExcludeFromCollections: true
     <loc>{{ config.site.url }}{{ post.url }}</loc>
     <lastmod>{{ post.date | isoDate }}</lastmod>
     <changefreq>never</changefreq>
-    <priority>{% if post.data.type == "lead" %}0.9{% elif post.data.type == "longread" %}0.8{% else %}0.7{% endif %}</priority>
+    <priority>{% if post.data.layout == "lead" %}0.9{% elif post.data.layout == "longform" %}0.8{% else %}0.7{% endif %}</priority>
   </url>
   {% endfor %}
 </urlset>

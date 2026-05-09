@@ -2,8 +2,8 @@
 {% set pageDesc    = description if description else (deck if deck else site.description) %}
 {% set pageUrl     = config.site.url + page.url %}
 {% set pageImage   = (photo if photo else config.seo.defaultOGImage) | absoluteUrl %}
-{% set pageType    = "article" if type in ["story","longread","brief","lead"] else "website" %}
-{% set noIndex     = true if type == "morgue" else false %}
+{% set pageType    = "article" if layout in ["story","longform","brief","lead"] else "website" %}
+{% set noIndex     = true if layout == "morgue" else false %}
 {% set publishedAt = date | isoDate if date else false %}
 
 <title>{% if pageTitle != site.title %}{{ pageTitle }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
@@ -28,6 +28,7 @@
 <meta property="article:modified_time"  content="{{ publishedAt }}">
 <meta property="article:author"         content="{{ site.author }}">
 {% if section %}<meta property="article:section" content="{{ section | capitalize }}">{% endif %}
+{% if tags %}{% for tag in tags %}<meta property="article:tag" content="{{ tag }}">{% endfor %}{% endif %}
 {% endif %}
 
 {# Twitter Card #}
@@ -64,11 +65,11 @@
 </script>
 {% endif %}
 
-{% if type in ["story", "longread", "lead"] %}
+{% if layout in ["story", "longform", "lead"] %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "{% if type == 'longread' %}Article{% else %}BlogPosting{% endif %}",
+  "@type": "{% if layout == 'longform' %}Article{% else %}BlogPosting{% endif %}",
   "headline": {{ title | dump | safe }},
   "description": {{ (description if description else (deck if deck else "")) | dump | safe }},
   "url": "{{ pageUrl }}",

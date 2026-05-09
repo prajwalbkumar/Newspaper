@@ -1,6 +1,6 @@
 # The Irregular
 
-A statically-generated personal newspaper. Content is Markdown with YAML frontmatter. One config file controls everything — site identity, colours, social links, and the dark info strip. Eleventy compiles it to plain HTML/CSS/JS and deploys to Cloudflare Pages in ~30 seconds.
+A statically-generated personal newspaper. Content is Markdown with YAML frontmatter. One config file controls everything — site identity, colours, social links, and location. Eleventy compiles it to plain HTML/CSS/JS and deploys to Cloudflare Pages in ~30 seconds.
 
 **Stack:** Eleventy 3 · Nunjucks · Vanilla JS · Cloudflare Pages
 
@@ -32,29 +32,28 @@ the-irregular/
 ├── the-irregular.config.js   ← THE config file. Start here.
 ├── .eleventy.js              ← Collections, filters, markdown plugin
 │
-├── content/
-│   └── posts/               ← All Markdown posts live here
-│
-├── templates/               ← Copy these to start a new post
-│   ├── STYLES.md            ← Every content element, with examples
-│   ├── story.md
-│   ├── lead.md
-│   ├── brief.md
-│   ├── longread.md
-│   ├── morgue.md
-│   └── now.md
-│
 └── src/
-    ├── _data/               ← config.js, site.js (re-export the config)
+    ├── _data/
+    │   ├── config.js         ← Re-exports the-irregular.config.js
+    │   ├── site.js           ← Re-exports config.site
+    │   ├── strip.json        ← Notices, Projects, Hobbies, Bucket List, Toys
+    │   └── now.json          ← "Now" block content
     ├── _includes/
-    │   ├── layouts/         ← base.njk (HTML shell), post.njk (standalone page)
-    │   └── components/      ← masthead, front-page, story-card, strip, morgue, etc.
-    └── assets/
-        ├── css/main.css
-        └── js/
-            ├── main.js      ← Popup, filter, search, dark mode, clock, fold
-            ├── live-data.js ← Weather + GitHub stats
-            └── redaction.js ← [text]{redact} mechanic
+    │   ├── layouts/          ← base.njk (HTML shell), post.njk (standalone page)
+    │   └── components/       ← masthead, front-page, story-card, strip, morgue, etc.
+    ├── assets/
+    │   ├── css/main.css
+    │   └── js/
+    │       ├── main.js       ← Popup, filter, search, dark mode, clock, fold
+    │       ├── live-data.js  ← Weather + GitHub stats
+    │       └── redaction.js  ← [text]{redact} mechanic
+    └── content/
+        └── posts/            ← All Markdown posts live here
+            ├── _template-story.md
+            ├── _template-lead.md
+            ├── _template-brief.md
+            ├── _template-longform.md
+            └── _template-morgue.md
 ```
 
 ---
@@ -144,18 +143,19 @@ Posts dated after the first divider appear at the top with no label. Each subseq
 
 ### The Strip
 
-The dark five-column info strip (Notices · Projects · Hobbies · Bucket List · Toys) is controlled entirely by arrays in the config — no posts involved.
+The dark five-column info strip (Notices · Projects · Hobbies · Bucket List · Toys) is controlled entirely by `src/_data/strip.json` — no posts involved.
 
-```javascript
-strip: {
-  notices:    [{ label: "Launching", body: "markedwith.love..." }],
-  projects:   [{ name: "The Irregular", url: "/", status: "active" }],
-  // status: "active" | "paused" | "shipped" | "shelved"
-  hobbies:    [{ label: "Photography", note: "Mostly architectural..." }],
-  bucketList: [{ item: "Drive the Nürburgring", done: false }],
-  toys:       [{ category: "Camera", name: "Sony A7C", note: "..." }],
-},
+```json
+{
+  "notices":    [{ "label": "Launching", "body": "markedwith.love..." }],
+  "projects":   [{ "name": "The Irregular", "url": "/", "status": "active" }],
+  "hobbies":    [{ "label": "Photography", "note": "Mostly architectural..." }],
+  "bucketList": [{ "item": "Drive the Nürburgring", "done": false }],
+  "toys":       [{ "category": "Camera", "name": "Sony A7C", "note": "..." }]
+}
 ```
+
+Project `status` values: `"active"` · `"paused"` · `"shipped"` · `"shelved"`
 
 ### GitHub integration
 
@@ -172,13 +172,13 @@ Stats are fetched from the public GitHub API on page load, cached in `localStora
 
 ## Writing Posts
 
-All posts are `.md` files in `content/posts/`. Filename format: `YYYY-MM-DD-slug.md`.
+All posts are `.md` files in `src/content/posts/`. Filename format: `YYYY-MM-DD-slug.md`.
 
-The `type:` field in frontmatter controls how a post renders. Post bodies support full Markdown plus HTML passthrough — see `templates/STYLES.md` for a complete element reference.
+The `layout:` field in frontmatter controls how a post renders. Post bodies support full Markdown plus HTML passthrough — see the Rich Content Elements table below for a reference.
 
 ---
 
-### type: story — Standard Article
+### layout: story — Standard Article
 
 Appears in the three-column grid. Body is clipped on the card; full content in the popup.
 
@@ -186,7 +186,7 @@ Appears in the three-column grid. Body is clipped on the card; full content in t
 ---
 title: "The Script Ran in Two Seconds. It Took Two Weeks to Write."
 date: 2026-03-10
-type: story
+layout: story
 
 deck: "The honest arithmetic of automation."
 byline: "By Our Code Correspondent · Filed from Dubai · Mar 2026"
@@ -200,19 +200,19 @@ photo: ""
 ---
 ```
 
-→ Template: `templates/story.md`
+→ Template: `src/content/posts/_template-story.md`
 
 ---
 
-### type: lead — Front-Page Hero
+### layout: lead — Front-Page Hero
 
-Only the most recently dated `lead` post becomes the front-page hero. When publishing a new lead, change the old one's `type` from `lead` to `story`.
+Only the most recently dated `lead` post becomes the front-page hero. When publishing a new lead, change the old one's `layout` from `lead` to `story`.
 
 ```yaml
 ---
 title: "Builder Continues Despite Not Knowing If the Thing Will Work"
 date: 2026-04-03
-type: lead
+layout: lead
 
 deck: "markedwith.love enters its fourth week."
 pullquote: "The letter should cost something."
@@ -226,11 +226,11 @@ photo: ""
 
 The body renders in the left column with a drop cap. The right column shows: pullquote → byline → "Now" block. Add `body2:` as a multiline frontmatter string for right-column body text.
 
-→ Template: `templates/lead.md`
+→ Template: `src/content/posts/_template-lead.md`
 
 ---
 
-### type: brief — Short Note
+### layout: brief — Short Note
 
 Compact rendering. No headline on the card — just a date label and the body. Keep it under 100 words.
 
@@ -238,18 +238,18 @@ Compact rendering. No headline on the card — just a date label and the body. K
 ---
 title: "IronPython, Tuesday"   # Archive and popup only. Not shown on the card.
 date: 2026-02-18
-type: brief
+layout: brief
 section: code
 tags: [code]
 description: "A brief note."
 ---
 ```
 
-→ Template: `templates/brief.md`
+→ Template: `src/content/posts/_template-brief.md`
 
 ---
 
-### type: longread — Extended Essay
+### layout: longform — Extended Essay
 
 Shows a "Long Read" badge. Card shows deck + "Read in full →". Full content only in the popup.
 
@@ -257,7 +257,7 @@ Shows a "Long Read" badge. Card shows deck + "Read in full →". Full content on
 ---
 title: "The City That Forgot What Streets Are For"
 date: 2026-01-14
-type: longread
+layout: longform
 
 deck: "Dubai builds relentlessly upward. The problem is at ground level."
 byline: "By Our Architecture Correspondent · Dubai, Jan 2026"
@@ -270,31 +270,11 @@ photo: ""
 ---
 ```
 
-→ Template: `templates/longread.md`
+→ Template: `src/content/posts/_template-longform.md`
 
 ---
 
-### type: now — About Sidebar Block
-
-The "Now" block in the about sidebar. Only the most recently dated `now` post is shown.
-
-```yaml
----
-title: "Now"
-date: 2026-04-03
-type: now
----
-
-Building markedwith.love. Dubai is getting hot again.
-```
-
-To update: create a new file with `type: now` and today's date.
-
-→ Template: `templates/now.md`
-
----
-
-### type: morgue — Unpublished / Abandoned
+### layout: morgue — Unpublished / Abandoned
 
 Appears only in The Morgue section at the bottom of the page. Never in the main grid. Automatically `noindex, nofollow` in search engines.
 
@@ -302,7 +282,7 @@ Appears only in The Morgue section at the bottom of the page. Never in the main 
 ---
 title: "On Dubai and the Particular Loneliness of Expat Life"
 date: 2025-11-25
-type: morgue
+layout: morgue
 
 morgueStatus: unpublished   # unpublished | abandoned | unfinished
 section: opinion
@@ -310,13 +290,25 @@ tags: [opinion]
 ---
 ```
 
-→ Template: `templates/morgue.md`
+→ Template: `src/content/posts/_template-morgue.md`
+
+---
+
+### The "Now" Block — not a post
+
+The "Now · April 2026" block in the about sidebar is not a post. Edit `src/_data/now.json` directly:
+
+```json
+{
+  "month": "April 2026",
+  "body": "Building markedwith.love. Dubai is getting hot again.",
+  "updatedAt": "2026-04-03"
+}
+```
 
 ---
 
 ## Rich Content Elements
-
-See `templates/STYLES.md` for the full reference with copy-paste examples.
 
 | Element | Syntax |
 |---|---|
@@ -340,30 +332,29 @@ See `templates/STYLES.md` for the full reference with copy-paste examples.
 
 ```bash
 # New post
-cp templates/story.md content/posts/2026-05-01-my-slug.md
+cp src/content/posts/_template-story.md src/content/posts/2026-05-01-my-slug.md
 # Edit the frontmatter and body
 npm start                              # Preview at localhost:3000
-git add content/posts/2026-05-01-my-slug.md
+git add src/content/posts/2026-05-01-my-slug.md
 git commit -m "post: my slug"
 git push                               # Deploys in ~30s
 
 # Promote a post to front-page lead
-# 1. Open the current lead → type: lead → type: story
-# 2. cp templates/lead.md content/posts/2026-05-01-new-lead.md
+# 1. Open the current lead → layout: lead → layout: story
+# 2. cp src/content/posts/_template-lead.md src/content/posts/2026-05-01-new-lead.md
 # 3. Fill in the frontmatter and body, push
 
 # Update the Now block
-cp templates/now.md content/posts/2026-05-01-now.md
-# Set today's date, write what you're doing, push
+# Edit src/_data/now.json → push
 
 # Update the strip (projects, toys, bucket list, notices)
-# Edit the-irregular.config.js → strip section, push
+# Edit src/_data/strip.json → push
 
 # Change colours
-# Edit the-irregular.config.js → colors, push
+# Edit the-irregular.config.js → colors → push
 
 # Move to a new city
-# Edit the-irregular.config.js → location, push
+# Edit the-irregular.config.js → location → push
 # Weather, clock, and datelines update automatically
 ```
 
@@ -403,7 +394,7 @@ cp templates/now.md content/posts/2026-05-01-now.md
 - JSON-LD structured data: `WebSite + Person` on home; `BlogPosting / Article` on posts
 - Canonical URLs throughout
 - Morgue posts: `noindex, nofollow` automatically
-- `/sitemap.xml` with per-type priorities · `/robots.txt`
+- `/sitemap.xml` with per-layout priorities · `/robots.txt`
 
 ---
 
