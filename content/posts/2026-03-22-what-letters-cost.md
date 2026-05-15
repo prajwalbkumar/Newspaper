@@ -1,5 +1,5 @@
 ---
-title: "What Letters Cost"
+title: "What a Match Costs"
 date: 2026-03-22
 type: story
 
@@ -7,15 +7,15 @@ section: dispatch
 tags: [dispatch, code]
 byline: "Filed from Dubai · March 2026"
 size: h2
-description: "On building markedwith.love, and the question of what it means for a letter to cost something."
+description: "On building kindred.date, and the question of what it means for a match to cost something."
 ---
 
-The idea behind markedwith.love is simple enough to fit on a napkin: a letter should cost something. The cost used to be stamps and ships. The letter from London to Calcutta in 1840 cost money, took months, and was written with the knowledge that it would take months. The letter was therefore written accordingly. You did not write a letter that you expected back in twenty minutes. You wrote a letter that was worth the journey.
+The idea behind kindred.date is simple enough to fit on a napkin: a match should cost something. The cost used to be vulnerability, showing up, saying something real to a stranger. The person who wrote you a letter in 1920 had decided that you were worth the effort. The recipient knew this. The knowledge changed how both parties related to the exchange.
 
-Email removed the cost. This was presented as progress, and by most measures it is. But the cost was doing something that nobody noticed until it was gone: it was creating intentionality. The sender had decided that this message was worth the cost of sending it. The recipient knew this. The knowledge changed how both parties related to the message.
+The swipe removed the cost. This was presented as efficiency, and by most measures it functions. But the cost was doing something that nobody noticed until it was gone: it was creating investment. To pursue someone used to require a decision. The decision was therefore made carefully. You did not declare interest lightly when interest was difficult to declare.
 
-markedwith.love tries to put the cost back in, not as money but as time and distance. You write a letter. You address it to someone. The delivery time scales with the real geographic distance between you and them. A letter to someone in the same city arrives in hours. A letter to someone on the other side of the world takes days. The letter itself is unchanged. The waiting is the cost.
+kindred.date tries to put the cost back in, not as awkwardness but as writing. You write a short essay about yourself. Not a list. Not a height. An essay — a few paragraphs about what you think, what you are building, what you find difficult to explain. You read other people's essays. You reach out only if something in the writing catches you. The essay is the cost.
 
-What I have learned in building this: the waiting does something. People who have tested the early version report that they write differently when they know the letter will not arrive instantly. They take more care. They say things they would not have said in an email because an email is an arrow and a letter is a parcel — it carries more, and you are more aware of what you are putting in it. Whether this effect is real or whether testers are being polite is impossible to determine at this scale. It feels real.
+What I have learned in building this: the writing does something. People who have tested the early version report that they send fewer messages. But the messages they send are different. They are not openers. They are responses — to something specific in the other person's essay. Whether this produces better outcomes than swiping is impossible to determine at this scale. It produces different ones. That was the hypothesis.
 
-The technical problem I did not anticipate is timezone display. When you are in Dubai and you send a letter to someone in São Paulo, the delivery countdown is trivial to compute. What is not trivial is displaying it in a way that feels like distance and not like a countdown timer. A countdown timer is anxious. Distance should feel like distance — like a thing that is happening in the world, not a thing that is being waited for. The UI work is the hardest part of the project. The algorithm took a weekend. The feeling has taken three weeks and is not finished.
+The technical problem I did not anticipate is matching without a swipe. When you remove the binary yes/no action that every dating app is built around, you have to replace it with something, and that something cannot simply be search. Search is a task. Discovery is a feeling. The UI work is the hardest part. The essay parser took a weekend. The feeling of finding someone has taken three weeks and is not finished.

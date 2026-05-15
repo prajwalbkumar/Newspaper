@@ -89,14 +89,14 @@ module.exports = {
   // The dark 5-column strip on the home page.
   strip: {
     notices: [
-      { label: "Launching", body: "markedwith.love. A letter app where distance shapes delivery." },
+      { label: "Launching", body: "kindred.date. A dating site where you write an essay before you match." },
       { label: "Available", body: "BIM coordination & automation consulting. Dubai. Revit, pyRevit, IFC." },
       { label: "Reading",   body: "The Odin Project curriculum. Slowly. On purpose." },
       { label: "Wanted",    body: "Collaborators who think before they build." },
     ],
 
     projects: [
-      { name: "markedwith.love",         url: "https://markedwith.love",                  status: "active"  },
+      { name: "kindred.date",              url: "https://kindred.date",                    status: "active"  },
       { name: "The Irregular",            url: "/",                                         status: "active"  },
       { name: "BIM Automation Scripts",   url: "https://github.com/prajwalbkumar",         status: "active"  },
       { name: "CloudYourKitchen",         url: null,                                        status: "paused"  },
